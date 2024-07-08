@@ -3,71 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Website</title>
+    <title>Modern Website</title>
     <style>
+        /* Global styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            margin: 20px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
         }
-        header, footer {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        /* Header styles */
+        header {
             background-color: #333;
             color: #fff;
+            padding: 10px 0;
             text-align: center;
-            padding: 10px;
         }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        /* Navigation styles */
         nav {
+            background-color: #444;
+            padding: 10px 0;
             text-align: center;
-            margin-top: 10px;
         }
         nav a {
             text-decoration: none;
-            padding: 5px 10px;
-            color: #333;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin: 0 5px;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         nav a:hover {
-            background-color: #ddd;
+            background-color: #555;
         }
+        /* Main styles */
         main {
-            padding: 20px;
+            padding: 20px 0;
         }
+        section {
+            padding: 40px 20px;
+            margin: 20px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        /* Footer styles */
         footer {
-            margin-top: 20px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to My Simple Website</h1>
+        <div class="container">
+            <h1>Modern Website</h1>
+        </div>
     </header>
     <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <div class="container">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
     <main>
-        <section id="home">
-            <h2>Home</h2>
-            <p>This is the homepage of my simple website.</p>
-        </section>
-        <section id="about">
-            <h2>About</h2>
-            <p>This section provides information about this website.</p>
-        </section>
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>You can contact me at example@example.com.</p>
-        </section>
+        <div class="container">
+            <section id="home">
+                <h2>Welcome to Our Modern Website</h2>
+                <p>This is a modern-looking website example with clean design and responsive layout.</p>
+            </section>
+            <section id="about">
+                <h2>About Us</h2>
+                <p>We are a team of professionals dedicated to creating amazing web experiences.</p>
+            </section>
+            <section id="services">
+                <h2>Our Services</h2>
+                <p>We offer a wide range of services including web design, development, and digital marketing.</p>
+            </section>
+            <section id="contact">
+                <h2>Contact Us</h2>
+                <p>Feel free to contact us for any inquiries or collaborations.</p>
+            </section>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2024 Simple Website. All rights reserved.</p>
+        <p>&copy; 2024 Modern Website. All rights reserved.</p>
     </footer>
 </body>
 </html>
