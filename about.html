@@ -1,30 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
-    <style>
-        /* Include styles as per your design preferences */
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
-    <header>
-        <h1>About Me</h1>
-    </header>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="about.html">About</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <div class="container">
-        <section>
-            <h2>About Me</h2>
-            <p>Write your introduction and information about your skills and experiences here.</p>
-        </section>
-    </div>
-    <footer>
-        <p>&copy; 2024 My Portfolio. All rights reserved.</p>
-    </footer>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About | Cameron Persaud</title>
+  <meta name="description" content="Background, education, awards and leadership for Cameron Persaud, a neuroscience student at Stony Brook University.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="about" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>About</h1>
+  </header>
+
+  <div class="prose">
+    <p class="lead">I&rsquo;m finishing a B.S. in Biology with a neuroscience concentration at Stony Brook University and continuing into the M.S. in Neuroscience. The question I keep coming back to is how the brain recovers after injury, and what we can build to help it.</p>
+    <p>That question has taken me through a protein biochemistry lab, a neurosurgery department, a public health team at Johns Hopkins, and now a neurogenesis lab, where I study how new neurons form in the adult hippocampus. Time in the clinic has shaped the questions I ask: watching craniotomies at Lenox Hill, rounding with hospitalists at Johns Hopkins, and consenting patients for studies in Stony Brook&rsquo;s emergency department.</p>
+    <p>I also like building things. I mentored a FIRST Robotics team for three years, I&rsquo;m on Stony Brook&rsquo;s Robotics Team and a member of IEEE, and I now teach students in the biomedical engineering program to design and program circuits for biomedical devices.</p>
+    <p>Long term, I want a career that combines neuroscience research with patient care, especially for people living with neurodegenerative disease or traumatic brain injury.</p>
+  </div>
+
+  <section class="section" aria-labelledby="edu-h">
+    <h2 id="edu-h">Education</h2>
+    <ul class="entries">
+      <sc-for list="{{education}}" as="e" hint-placeholder-count="4">
+        <li class="entry">
+          <span class="entry-when">{{e.when}}</span>
+          <div>
+            <p class="entry-title">{{e.title}}</p>
+            <p class="entry-org">{{e.org}}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="awards-h">
+    <h2 id="awards-h">Awards</h2>
+    <ul class="entries">
+      <sc-for list="{{awards}}" as="e" hint-placeholder-count="6">
+        <li class="entry">
+          <span class="entry-when">{{e.when}}</span>
+          <div>
+            <p class="entry-title">{{e.title}}</p>
+            <p class="entry-org">{{e.org}}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="lead-h">
+    <h2 id="lead-h">Leadership and teaching</h2>
+    <ul class="entries">
+      <sc-for list="{{leadership}}" as="e" hint-placeholder-count="6">
+        <li class="entry">
+          <span class="entry-when">{{e.when}}</span>
+          <div>
+            <p class="entry-title">{{e.title}}</p>
+            <p class="entry-org">{{e.org}}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="member-h">
+    <h2 id="member-h">Memberships</h2>
+    <p class="prose">Society for Neuroscience, American Society for Biochemistry and Molecular Biology, and the Gerontological Society of America.</p>
+  </section>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      education: [
+        { when: 'Expected May 2029', title: 'M.S., Neuroscience', org: 'Stony Brook University' },
+        { when: 'Expected Dec 2026', title: 'B.S., Biology, neuroscience concentration', org: 'Stony Brook University' },
+        { when: 'Jan 2026', title: 'Clinical Medical Assistant course', org: 'Adelphi University' },
+        { when: 'Freshman year', title: 'Honors College, Dean’s List both semesters', org: 'St. John’s University' },
+      ],
+      awards: [
+        { when: 'Jun 2026', title: 'Organizer’s Choice Award', org: 'Mission:Brain Global Neurosurgery Hackathon, for MindPiece (99 teams)' },
+        { when: 'May 2026', title: 'CSTEP Research Award', org: 'Stony Brook CSTEP, given to the top 0.2% of students for research' },
+        { when: 'Nov 2025', title: 'Internship Equity Fund recipient', org: 'Stony Brook University' },
+        { when: 'Oct 2025', title: 'Upstander Award', org: 'Center for Prevention and Outreach, Stony Brook University' },
+        { when: 'May 2024', title: 'Civically Engaged Seawolf Award', org: 'Stony Brook University' },
+        { when: 'Apr 2024', title: 'Outstanding Leadership and Service Pin', org: 'National Residence Hall Honorary' },
+        { when: 'Mar 2024', title: 'Silver Leaf Award', org: 'National Residence Hall Honorary' },
+      ],
+      leadership: [
+        { when: 'Apr 2026 – present', title: 'Research Mentor, Biomedical Engineering', org: 'Stony Brook University' },
+        { when: 'Aug 2025 – present', title: 'Founder and CEO, Oncology Society Inc.', org: 'Started chapters at Stony Brook and Princeton' },
+        { when: 'Sep 2024 – May 2026', title: 'Founder and President, Oncology Society at Stony Brook', org: 'Connected students with research and taught lab techniques' },
+        { when: 'Mar 2024 – May 2026', title: 'AP and Regents Chemistry Instructor', org: 'Stony Brook CSTEP' },
+        { when: 'Sep 2023 – Jan 2025', title: 'Senior Vice President and VP of External Affairs', org: 'National Residence Hall Honorary, Stony Brook chapter' },
+        { when: 'May 2022 – May 2025', title: 'FIRST Robotics Mentor, Team 5599 Sentinels', org: 'Benjamin N. Cardozo High School' },
+      ],
+    };
+  }
+}
+</script>
 </body>
 </html>

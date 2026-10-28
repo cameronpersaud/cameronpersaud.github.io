@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research | Cameron Persaud</title>
+  <meta name="description" content="Cameron Persaud's research and clinical experience: adult neurogenesis, chromatin biochemistry, neurosurgical rehabilitation outcomes, and falsified-medicine surveillance.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="research" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>Research</h1>
+    <p class="lead">My current work is on adult neurogenesis in the hippocampus. Earlier projects took me through chromatin biochemistry, neurosurgical outcomes research, and public health, and clinical work has run alongside all of it.</p>
+  </header>
+
+  <section class="section" aria-labelledby="labs-h">
+    <h2 id="labs-h">Research positions</h2>
+    <ul class="entries">
+      <sc-for list="{{labs}}" as="e" hint-placeholder-count="7">
+        <li class="entry">
+          <span class="entry-when">{{e.when}}</span>
+          <div>
+            <p class="entry-title">{{e.place}}</p>
+            <p class="entry-org">{{e.role}}</p>
+            <p class="entry-body">{{e.desc}}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="clinical-h">
+    <h2 id="clinical-h">Clinical experience</h2>
+    <ul class="entries">
+      <sc-for list="{{clinical}}" as="e" hint-placeholder-count="4">
+        <li class="entry">
+          <span class="entry-when">{{e.when}}</span>
+          <div>
+            <p class="entry-title">{{e.place}}</p>
+            <p class="entry-org">{{e.role}}</p>
+            <p class="entry-body">{{e.desc}}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="methods-h">
+    <h2 id="methods-h">Methods</h2>
+    <p class="section-note">Techniques I have used hands-on.</p>
+    <sc-for list="{{methods}}" as="m" hint-placeholder-count="3">
+      <div class="skill-group">
+        <h3>{{m.title}}</h3>
+        <p>{{m.items}}</p>
+      </div>
+    </sc-for>
+  </section>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      labs: [
+        {
+          when: 'May 2026 – present',
+          place: 'Ge Lab, Department of Neurobiology and Behavior, Stony Brook University',
+          role: 'Research Assistant with Dr. Shaoyu Ge',
+          desc: 'Adult neurogenesis in the dentate gyrus. I am also designing a microfluidic pump for drug delivery into cerebrospinal fluid and working on multifocal stimulation of the dura mater.',
+        },
+        {
+          when: 'Jul 2025 – present',
+          place: 'Johns Hopkins Bloomberg School of Public Health',
+          role: 'Research Assistant with Dr. Saifuddin Ahmed',
+          desc: 'BE SAFE, a study of how substandard and falsified medicines affect maternal, newborn and child health and malaria outcomes. I also count illegal online pharmacies selling GLP-1 drugs, and helped run the 2025 BE SAFE conference.',
+        },
+        {
+          when: 'Jun – Dec 2025',
+          place: 'Johns Hopkins School of Medicine',
+          role: 'Research Assistant with Dr. Henry Michtalik',
+          desc: 'Systematic review of how race relates to outcomes for US adults hospitalized with COVID-19.',
+        },
+        {
+          when: 'Jun 2024 – Oct 2025',
+          place: 'Department of Pharmacology, Stony Brook Medicine',
+          role: 'Student Researcher with Dr. Dongyan Tan',
+          desc: 'Purification and activity of the chromatin remodeler CHD1 on nucleosomes containing macroH2A. I grew bacterial cultures, purified histones by FPLC, reconstituted nucleosomes, and ran activity assays and gels. I also worked as the lab’s assistant for a year (Jun 2024 – Jun 2025).',
+        },
+        {
+          when: 'Jan 2024 – Feb 2025',
+          place: 'Department of Neurosurgery, Lenox Hill Hospital',
+          role: 'Research Assistant with Dr. Randy D’Amico',
+          desc: 'Collected outcome data and wrote on the history of post-surgical rehabilitation for patients with brain and spinal metastases. The work became a systematic review in Supportive Care in Cancer and a poster at CNS 2024.',
+        },
+        {
+          when: 'May – Jun 2024',
+          place: 'Department of Political Science, Princeton University',
+          role: 'Research Assistant',
+          desc: 'Checked wage data for women in WWII-era documents, extracted with ChatGPT and Google Vision, and reorganized it for analysis in R.',
+        },
+      ],
+      clinical: [
+        {
+          when: 'Sep 2025 – May 2026',
+          place: 'Emergency Department, Stony Brook Medicine',
+          role: 'Student Researcher, Academic Associates program (Dr. Brian McMahon)',
+          desc: 'Screened patients for study eligibility, explained studies to them, and collected consent.',
+        },
+        {
+          when: 'Jun – Aug 2025',
+          place: 'Johns Hopkins School of Medicine',
+          role: 'Summer Hospitalist Academic Research Program (SHARP) intern',
+          desc: 'Rounded with hospitalist teams and observed triage, paracentesis, lumbar puncture and Dobhoff tube placement.',
+        },
+        {
+          when: 'Sep 2024 – May 2025',
+          place: 'Stony Brook Hospital',
+          role: 'Pathways to Healthcare externship',
+          desc: 'Cadaver lab training, suturing and casting practice, simulation labs, and panels with clinicians across units.',
+        },
+        {
+          when: 'Jan – Feb 2024',
+          place: 'Department of Neurosurgery, Lenox Hill Hospital',
+          role: 'Surgical shadowing',
+          desc: 'Observed craniotomies, aneurysm clippings and laminectomies.',
+        },
+      ],
+      methods: [
+        { title: 'Neuroscience', items: 'Craniotomy and burr holes, cisterna magna and lambda infusions, viral injections, electrode implantation in mice, cryosectioning, confocal fluorescence microscopy, stereology.' },
+        { title: 'Biochemistry and molecular biology', items: 'FPLC and nickel-column purification, histone, dimer, tetramer and nucleosome reconstitution, PCR and RT-qPCR, western blot, cloning, plasmid design, bacmid creation, insect cell culture, SDS and native gels, AlphaFold.' },
+        { title: 'Clinical research', items: 'Systematic and literature review, data extraction, manuscript writing, Covidence, REDCap.' },
+        { title: 'Programming', items: 'Python, C++, Java, Arduino.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+/* Site theme for cameronpersaud — loaded after the Nocturne design-system sheet.
+   It retunes the Nocturne tokens (the component classes keep working) and adds the
+   few layout classes the pages share. To go back to the original Nocturne look,
+   remove the <link> to this file from each page.
+
+   Palette idea: a stained slide. Cool glass-white ground, ink text, and a single
+   accent in cresyl violet, the Nissl stain used for neuroanatomy. */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --ink: #1c1d26;
+  --ink-2: #4f5463;      /* secondary text */
+  --ink-3: #646978;      /* dates, captions — 4.9:1 on the ground */
+  --rule: #d9dce3;
+  --violet: #5b3891;     /* cresyl violet */
+  --violet-tint: #ebe5f4;
+
+  /* Nocturne tokens, retuned */
+  --color-bg: #f4f5f7;
+  --color-surface: #fbfbfc;
+  --color-text: var(--ink);
+  --color-accent: var(--violet);
+  --color-divider: var(--rule);
+  --font-heading: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-heading-weight: 500;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --measure: 66ch;
+  --gutter: clamp(20px, 5vw, 48px);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e4e5ea;
+    --ink-2: #b3b7c3;
+    --ink-3: #9196a3;
+    --rule: #2d2f3a;
+    --violet: #bba3e8;
+    --violet-tint: #2b2340;
+    --color-bg: #121318;
+    --color-surface: #1a1b22;
+    color-scheme: dark;
+  }
+}
+
+/* ── base ─────────────────────────────────────────────────────────── */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+p { margin: 0 0 1em; }
+a {
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--violet) 40%, transparent);
+}
+a:hover { text-decoration-color: currentColor; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--violet-tint); color: var(--ink); }
+strong { font-weight: 600; }
+
+.skip-link {
+  position: absolute; left: var(--gutter); top: -60px;
+  background: var(--ink); color: var(--color-bg); padding: 8px 12px; z-index: 10;
+}
+.skip-link:focus { top: 12px; }
+
+/* ── frame ────────────────────────────────────────────────────────── */
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 var(--gutter); }
+main.wrap { min-height: 60vh; }
+
+.site-header {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 10px 32px; padding-top: 30px; padding-bottom: 30px;
+}
+.wordmark {
+  font-family: var(--font-heading); font-size: 22px; font-weight: 500;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+}
+.wordmark { display: inline-flex; align-items: center; gap: 12px; align-self: center; }
+.wordmark-logo { width: 38px; height: auto; display: block; box-sizing: content-box; }
+@media (prefers-color-scheme: dark) {
+  /* the logo's royal blue disappears on the dark ground, so it sits on a light tile */
+  .wordmark-logo { background: #e9ebf3; border-radius: 8px; padding: 4px; }
+}
+.site-header { align-items: center; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 26px; }
+.site-nav a {
+  font-size: 15px; color: var(--ink-2); text-decoration: none; padding: 4px 0;
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: underline; text-decoration-color: var(--violet);
+  text-decoration-thickness: 2px; text-underline-offset: 7px;
+}
+
+.site-footer {
+  margin-top: 112px; padding-top: 24px; padding-bottom: 48px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px;
+  font-size: 14px; color: var(--ink-3);
+}
+.site-footer p { margin: 0; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.footer-links a { color: var(--ink-2); }
+
+/* ── page openings ────────────────────────────────────────────────── */
+.page-head { padding-top: 48px; max-width: 760px; }
+.page-head h1 { font-size: clamp(36px, 5vw, 50px); line-height: 1.08; margin: 0 0 18px; }
+.lead {
+  font-family: var(--font-heading); font-size: clamp(19px, 2.1vw, 22px);
+  line-height: 1.5; color: var(--ink-2); max-width: 40em; margin: 0;
+}
+
+/* home */
+.intro {
+  display: grid; grid-template-columns: 176px minmax(0, 1fr);
+  gap: 20px 44px; align-items: start; padding-top: 56px; max-width: 900px;
+}
+.portrait {
+  width: 176px; height: 176px; border-radius: 50%; object-fit: cover; display: block;
+  background: var(--rule);
+}
+.intro h1 { font-size: clamp(42px, 6.4vw, 64px); line-height: 1; margin: 6px 0 14px; letter-spacing: -0.02em; }
+.intro .role { font-size: 17px; color: var(--ink-2); margin: 0 0 26px; }
+.intro .lead { color: var(--ink); }
+.link-row { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 26px; font-size: 15.5px; }
+
+/* ── sections and CV-style entries ────────────────────────────────── */
+.section { margin-top: 80px; max-width: 900px; }
+.section > h2 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; }
+.section > .section-note { color: var(--ink-3); font-size: 15px; margin: 0 0 8px; max-width: var(--measure); }
+.section-more { margin: 18px 0 0; font-size: 15px; }
+
+.entries { list-style: none; margin: 14px 0 0; padding: 0; }
+.entry {
+  display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); gap: 2px 28px;
+  padding: 13px 0;
+}
+.entry + .entry { border-top: 1px solid color-mix(in srgb, var(--rule) 70%, transparent); }
+.entry-when {
+  font-size: 14.5px; color: var(--ink-3); font-variant-numeric: tabular-nums;
+  padding-top: 1px;
+}
+.entry-title { font-weight: 500; color: var(--ink); margin: 0; }
+.entry-org { color: var(--ink-2); margin: 0; }
+.entry-body { color: var(--ink-2); margin: 6px 0 0; max-width: var(--measure); }
+.entry-body a { white-space: nowrap; }
+
+/* publications */
+.cite-title { font-family: var(--font-heading); font-size: 19.5px; line-height: 1.35; color: var(--ink); margin: 0 0 6px; }
+.cite-authors, .cite-venue { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+.cite-authors strong { color: var(--ink); font-weight: 600; }
+.cite-venue em { font-style: italic; }
+.cite-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 0; font-size: 15px; }
+
+/* projects */
+.project { padding: 30px 0; border-top: 1px solid var(--rule); max-width: 760px; }
+.project:first-child { border-top: 0; padding-top: 12px; }
+.project h2 { font-size: 26px; line-height: 1.2; margin: 0 0 6px; }
+.project-meta { color: var(--ink-3); font-size: 15px; margin: 0 0 14px; }
+.project p.project-body { margin: 0 0 10px; max-width: var(--measure); }
+.project-people { color: var(--ink-2); font-size: 15px; margin: 0; }
+.project figure { margin: 0 0 18px; }
+.project figure img { width: 100%; height: auto; border-radius: 4px; display: block; }
+.project figcaption { font-size: 13.5px; color: var(--ink-3); margin-top: 8px; }
+
+/* about */
+.prose { max-width: var(--measure); }
+.prose p { margin: 0 0 1.1em; }
+.facts { columns: 2 18rem; column-gap: 40px; margin: 12px 0 0; }
+.facts p { break-inside: avoid; margin: 0 0 14px; color: var(--ink-2); }
+.facts strong { display: block; color: var(--ink); font-weight: 500; }
+
+/* skills on research page: plain sentences under a heading */
+.skill-group { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); gap: 2px 28px; padding: 12px 0; }
+.skill-group h3 { font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--ink); margin: 1px 0 0; }
+.skill-group p { margin: 0; color: var(--ink-2); max-width: var(--measure); }
+
+/* contact */
+.contact-list { margin: 28px 0 0; padding: 0; list-style: none; max-width: 640px; }
+.contact-list li { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); gap: 2px 28px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.contact-list li:first-child { border-top: 0; }
+.contact-list .label { color: var(--ink-3); font-size: 15px; }
+.contact-list a { overflow-wrap: anywhere; }
+
+/* buttons (outlined, as in Nocturne) */
+.button {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 15px/1.2 var(--font-body); color: var(--violet);
+  border: 1px solid var(--violet); border-radius: 5px; padding: 9px 15px;
+  text-decoration: none; background: transparent; cursor: pointer;
+}
+.button:hover { background: var(--violet-tint); }
+.button.quiet { border-color: var(--rule); color: var(--ink); }
+.button.quiet:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+.button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+.copy-note { font-size: 14px; color: var(--ink-3); margin-left: 10px; }
+
+/* CV viewer */
+.pdf-frame {
+  margin-top: 40px; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+  height: min(1200px, 85vh); background: var(--color-surface);
+}
+.pdf-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.pdf-fallback { font-size: 14.5px; color: var(--ink-3); margin-top: 12px; }
+
+/* ── small screens ────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  .site-header { padding-top: 22px; padding-bottom: 18px; }
+  .site-nav { gap: 2px 14px; }
+  .site-nav a { font-size: 14.5px; }
+  .intro { grid-template-columns: 1fr; padding-top: 28px; gap: 20px; }
+  .portrait { width: 116px; height: 116px; }
+  .entry, .skill-group, .contact-list li { grid-template-columns: 1fr; gap: 2px; }
+  .section { margin-top: 60px; }
+  .page-head { padding-top: 24px; }
+  .pdf-frame { height: 70vh; }
+}
+
+@media print {
+  .site-header nav, .site-footer, .skip-link, .button-row { display: none; }
+  body { background: #fff; color: #000; }
+}

@@ -1,31 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Me</title>
-    <style>
-        /* Include styles as per your design preferences */
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Contact Me</h1>
-    </header>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="about.html">About</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <div class="container">
-        <section>
-            <h2>Contact Information</h2>
-            <p>Email: yourname@example.com<br>Phone: +1234567890</p>
-            <p>Feel free to reach out to me using the contact information provided above.</p>
-        </section>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | Cameron Persaud</title>
+  <meta name="description" content="How to reach Cameron Persaud.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="contact" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>Contact</h1>
+    <p class="lead">Email is the best way to reach me, whether it&rsquo;s about research, a position, or a collaboration.</p>
+    <div class="button-row">
+      <a class="button" href="mailto:cameron.persaud@stonybrook.edu">Email me</a>
+      <button type="button" class="button quiet" onClick="{{copyEmail}}">Copy email address</button>
+      <sc-if value="{{copied}}" hint-placeholder-val="{{false}}"><span class="copy-note" role="status">Copied</span></sc-if>
     </div>
-    <footer>
-        <p>&copy; 2024 My Portfolio. All rights reserved.</p>
-    </footer>
+  </header>
+
+  <ul class="contact-list">
+    <sc-for list="{{links}}" as="l" hint-placeholder-count="4">
+      <li>
+        <span class="label">{{l.label}}</span>
+        <a href="{{l.href}}">{{l.value}}</a>
+      </li>
+    </sc-for>
+  </ul>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { copied: false };
+
+  copyEmail = () => {
+    const email = 'cameron.persaud@stonybrook.edu';
+    const done = () => this.setState({ copied: true });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(done, () => window.prompt('Copy this address:', email));
+    } else {
+      window.prompt('Copy this address:', email);
+    }
+  };
+
+  renderVals() {
+    return {
+      copied: this.state.copied,
+      copyEmail: this.copyEmail,
+      links: [
+        { label: 'Email', value: 'cameron.persaud@stonybrook.edu', href: 'mailto:cameron.persaud@stonybrook.edu' },
+        { label: 'LinkedIn', value: 'linkedin.com/in/cameronpersaud', href: 'https://linkedin.com/in/cameronpersaud' },
+        { label: 'Google Scholar', value: 'Cameron Persaud', href: 'https://scholar.google.com/citations?user=836-B0YAAAAJ&hl=en' },
+        { label: 'ORCID', value: '0009-0005-1488-1659', href: 'https://orcid.org/0009-0005-1488-1659' },
+      ],
+    };
+  }
+}
+</script>
 </body>
 </html>

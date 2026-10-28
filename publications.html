@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publications | Cameron Persaud</title>
+  <meta name="description" content="Journal articles, posters and presentations by Cameron Persaud.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="publications" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>Publications</h1>
+    <p class="lead">Peer-reviewed work and conference presentations. A current list is also on <a href="https://scholar.google.com/citations?user=836-B0YAAAAJ&amp;hl=en">Google Scholar</a> and <a href="https://orcid.org/0009-0005-1488-1659">ORCID</a>.</p>
+  </header>
+
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+    <section class="section">
+      <h2>{{g.title}}</h2>
+      <ul class="entries">
+        <sc-for list="{{g.items}}" as="p" hint-placeholder-count="2">
+          <li class="entry">
+            <span class="entry-when">{{p.year}}</span>
+            <div>
+              <p class="cite-title">{{p.title}}</p>
+              <p class="cite-authors"><sc-for list="{{p.authors}}" as="a"><sc-if value="{{a.me}}"><strong>{{a.name}}</strong></sc-if><sc-if value="{{!a.me}}">{{a.name}}</sc-if>{{a.sep}}</sc-for></p>
+              <p class="cite-venue"><em>{{p.venue}}</em>{{p.venueDetail}}</p>
+              <sc-if value="{{p.hasLinks}}" hint-placeholder-val="{{false}}">
+                <p class="cite-links">
+                  <sc-for list="{{p.links}}" as="l"><a href="{{l.href}}">{{l.label}}</a></sc-for>
+                </p>
+              </sc-if>
+            </div>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+  </sc-for>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Authors are a plain comma-separated string; any name containing "Persaud" is set in bold.
+  _authors(list) {
+    const names = list.split(', ');
+    return names.map((name, i) => ({
+      name,
+      me: /Persaud/.test(name),
+      sep: i < names.length - 1 ? ', ' : '',
+    }));
+  }
+
+  _item(p) {
+    const links = p.links || [];
+    return { ...p, authors: this._authors(p.authors), links, hasLinks: links.length > 0, venueDetail: p.venueDetail || '' };
+  }
+
+  renderVals() {
+    const groups = [
+      {
+        title: 'Journal articles',
+        items: [
+          {
+            year: '2025',
+            title: 'Optimizing post-acute care inpatient rehabilitation for patients with brain metastasis: a systematic review of functional outcomes',
+            authors: 'Donnelly BM, Stark KG, Persaud CJ, D’Amico RS, Davidoff CI',
+            venue: 'Supportive Care in Cancer',
+            venueDetail: '. 2025;33(5):418.',
+            links: [
+              { label: 'DOI 10.1007/s00520-025-09468-9', href: 'https://doi.org/10.1007/s00520-025-09468-9' },
+              { label: 'PubMed 40278896', href: 'https://pubmed.ncbi.nlm.nih.gov/40278896/' },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Posters',
+        items: [
+          {
+            year: '2024',
+            title: 'Enhancing rehabilitation outcomes in brain metastases patients: a review of challenges, current practices, and future directions',
+            authors: 'Donnelly B, Stark K, Persaud C, D’Amico R, Davidoff C',
+            venue: 'Congress of Neurological Surgeons (CNS) Annual Meeting',
+            venueDetail: ', Houston, Texas.',
+          },
+        ],
+      },
+      {
+        title: 'Presentations',
+        items: [
+          {
+            year: '2026',
+            title: 'MindPiece Initiative',
+            authors: 'Persaud C, Li M, Zheng E',
+            venue: 'Mission:Brain Global Neurosurgery Hackathon',
+            venueDetail: ', online, June 21. Organizer’s Choice Award.',
+          },
+          {
+            year: '2026',
+            title: 'Wolfie Run: rehabilitation for occipital infarction patients',
+            authors: 'Persaud C, Li M, Gao C, Leung J, Zheng E',
+            venue: '3rd Annual Healthcare Innovation Challenge',
+            venueDetail: ', Stony Brook University, April 25.',
+          },
+        ],
+      },
+    ];
+    return { groups: groups.map(g => ({ ...g, items: g.items.map(p => this._item(p)) })) };
+  }
+}
+</script>
+</body>
+</html>

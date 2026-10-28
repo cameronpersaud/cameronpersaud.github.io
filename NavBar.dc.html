@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header wrap">
+  <a class="wordmark" href="index.html"><img class="wordmark-logo" src="assets/logo-mark.png" alt="" width="38" height="36" />Cameron Persaud</a>
+  <nav class="site-nav" aria-label="Primary">
+    <sc-for list="{{links}}" as="link" hint-placeholder-count="6">
+      <a href="{{link.href}}" aria-current="{{link.current}}">{{link.label}}</a>
+    </sc-for>
+  </nav>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;activePage&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;home&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;home&quot;, &quot;about&quot;, &quot;research&quot;, &quot;projects&quot;, &quot;publications&quot;, &quot;resume&quot;, &quot;contact&quot;]}}">
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.activePage || 'home';
+    const items = [
+      { key: 'about', label: 'About', href: 'about.html' },
+      { key: 'research', label: 'Research', href: 'research.html' },
+      { key: 'projects', label: 'Projects', href: 'projects.html' },
+      { key: 'publications', label: 'Publications', href: 'publications.html' },
+      { key: 'resume', label: 'CV', href: 'resume.html' },
+      { key: 'contact', label: 'Contact', href: 'contact.html' },
+    ];
+    return {
+      links: items.map(it => ({ ...it, current: it.key === active ? 'page' : undefined })),
+    };
+  }
+}
+</script>
+</body>
+</html>

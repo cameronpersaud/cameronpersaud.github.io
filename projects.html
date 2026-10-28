@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | Cameron Persaud</title>
+  <meta name="description" content="Device and design projects by Cameron Persaud: a microfluidic CSF drug-delivery pump, dural stimulation, and two healthcare innovation challenge entries.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="projects" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>Projects</h1>
+    <p class="lead">Things I have designed or built, in the lab and in competitions. For lab research, see <a href="research.html">Research</a>.</p>
+  </header>
+
+  <div class="section">
+    <sc-for list="{{projects}}" as="p" hint-placeholder-count="4">
+      <article class="project" id="{{p.id}}">
+        <sc-if value="{{p.image}}" hint-placeholder-val="{{false}}">
+          <figure>
+            <img src="{{p.image}}" alt="{{p.imageAlt}}" loading="lazy" />
+            <figcaption>{{p.imageCaption}}</figcaption>
+          </figure>
+        </sc-if>
+        <h2>{{p.title}}</h2>
+        <p class="project-meta">{{p.meta}}</p>
+        <p class="project-body">{{p.body}}</p>
+        <sc-if value="{{p.people}}" hint-placeholder-val="{{false}}">
+          <p class="project-people">{{p.people}}</p>
+        </sc-if>
+      </article>
+    </sc-for>
+  </div>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    // To add a photo to a project, set image (a path such as 'assets/csf-pump.jpg'),
+    // imageAlt (what the photo shows) and imageCaption. Projects without one show text only.
+    return {
+      projects: [
+        {
+          id: 'csf-pump',
+          title: 'Microfluidic pump for CSF drug delivery',
+          meta: 'Ge Lab, Stony Brook University. 2026 – present.',
+          body: 'A microfluidic pump for delivering drugs directly into cerebrospinal fluid, designed as part of the lab’s work on adult neurogenesis.',
+          people: 'Supervised by Dr. Shaoyu Ge.',
+          image: null, imageAlt: '', imageCaption: '',
+        },
+        {
+          id: 'dura-stim',
+          title: 'Multifocal stimulation of the dura mater',
+          meta: 'Ge Lab, Stony Brook University. 2026 – present.',
+          body: 'Stimulating several sites on the dura mater at once, alongside the lab’s neurogenesis research.',
+          people: 'Supervised by Dr. Shaoyu Ge.',
+          image: null, imageAlt: '', imageCaption: '',
+        },
+        {
+          id: 'mindpiece',
+          title: 'MindPiece Initiative',
+          meta: 'Mission:Brain Global Neurosurgery Hackathon, June 2026. Organizer’s Choice Award among 99 teams.',
+          body: 'A global health proposal for improving care after traumatic brain injury in low-income countries.',
+          people: 'With Mengyao Li and Elton Zheng.',
+          image: null, imageAlt: '', imageCaption: '',
+        },
+        {
+          id: 'wolfie-run',
+          title: 'Wolfie Run',
+          meta: '3rd Annual Healthcare Innovation Challenge, Stony Brook University, April 2026.',
+          body: 'A rehabilitation concept for patients recovering from an occipital infarction, a stroke affecting the brain’s visual cortex.',
+          people: 'With Mengyao Li, Chuwei Gao, Justin Leung and Elton Zheng.',
+          image: null, imageAlt: '', imageCaption: '',
+        },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

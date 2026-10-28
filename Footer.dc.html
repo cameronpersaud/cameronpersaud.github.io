@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+<footer class="wrap">
+  <div class="site-footer">
+  <p>&copy; {{year}} Cameron Persaud. Last updated {{updated}}.</p>
+  <div class="footer-links">
+    <sc-for list="{{links}}" as="link" hint-placeholder-count="4">
+      <a href="{{link.href}}">{{link.label}}</a>
+    </sc-for>
+  </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      year: new Date().getFullYear(),
+      // Change this by hand whenever you edit the site.
+      updated: 'October 2026',
+      links: [
+        { href: 'mailto:cameron.persaud@stonybrook.edu', label: 'Email' },
+        { href: 'https://scholar.google.com/citations?user=836-B0YAAAAJ&hl=en', label: 'Google Scholar' },
+        { href: 'https://orcid.org/0009-0005-1488-1659', label: 'ORCID' },
+        { href: 'https://linkedin.com/in/cameronpersaud', label: 'LinkedIn' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

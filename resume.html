@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CV | Cameron Persaud</title>
+  <meta name="description" content="Cameron Persaud's curriculum vitae.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/styles.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
+</helmet>
+
+<dc-import name="NavBar" active-page="resume" hint-size="100%,90px"></dc-import>
+
+<main id="main" class="wrap">
+  <header class="page-head">
+    <h1>CV</h1>
+    <p class="lead">Four pages, last updated {{cvUpdated}}.</p>
+    <div class="button-row">
+      <a class="button" href="assets/Cameron_Persaud_CV.pdf" download="Cameron_Persaud_CV.pdf">Download PDF</a>
+      <a class="button quiet" href="assets/Cameron_Persaud_CV.pdf" target="_blank" rel="noopener">Open in a new tab</a>
+    </div>
+  </header>
+
+  <div class="pdf-frame">
+    <iframe src="assets/Cameron_Persaud_CV.pdf#view=FitH" title="Cameron Persaud CV (PDF)"></iframe>
+  </div>
+  <p class="pdf-fallback">If the PDF doesn&rsquo;t show above (common on phones), <a href="assets/Cameron_Persaud_CV.pdf">open it directly</a>.</p>
+</main>
+
+<dc-import name="Footer" hint-size="100%,120px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    // Update this when you replace assets/Cameron_Persaud_CV.pdf.
+    return { cvUpdated: 'July 2026' };
+  }
+}
+</script>
+</body>
+</html>
