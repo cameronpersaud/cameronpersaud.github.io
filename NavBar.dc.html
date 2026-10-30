@@ -13,9 +13,11 @@
   <script src="_ds/nocturne-ec39c827-87c5-4fe1-bb59-b2793aa207f2/_ds_bundle.js"></script>
 </helmet>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header wrap">
+<header class="site-header wrap" data-menu-open="{{menuOpen}}">
   <a class="wordmark" href="index.html"><img class="wordmark-logo" src="assets/logo-mark.png" alt="" width="38" height="36" />Cameron Persaud</a>
-  <nav class="site-nav" aria-label="Primary">
+  <!-- Shown only on small screens (see .menu-toggle in assets/site.css). -->
+  <button type="button" class="menu-toggle" aria-expanded="{{menuOpen}}" aria-controls="site-nav" onClick="{{toggleMenu}}">{{menuLabel}}</button>
+  <nav class="site-nav" id="site-nav" aria-label="Primary">
     <sc-for list="{{links}}" as="link" hint-placeholder-count="6">
       <a href="{{link.href}}" aria-current="{{link.current}}">{{link.label}}</a>
     </sc-for>
@@ -24,6 +26,24 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;activePage&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;home&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;home&quot;, &quot;about&quot;, &quot;research&quot;, &quot;projects&quot;, &quot;publications&quot;, &quot;resume&quot;, &quot;contact&quot;]}}">
 class Component extends DCLogic {
+  state = { menuOpen: false };
+
+  toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+
+  componentDidMount() {
+    // Escape closes the menu; widening the window past phone size resets it.
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    this._mq = window.matchMedia('(min-width: 681px)');
+    this._onMq = () => { if (this._mq.matches && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    window.addEventListener('keydown', this._onKey);
+    if (this._mq.addEventListener) this._mq.addEventListener('change', this._onMq);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq);
+  }
+
   renderVals() {
     const active = this.props.activePage || 'home';
     const items = [
@@ -34,7 +54,11 @@ class Component extends DCLogic {
       { key: 'resume', label: 'CV', href: 'resume.html' },
       { key: 'contact', label: 'Contact', href: 'contact.html' },
     ];
+    const open = this.state.menuOpen;
     return {
+      menuOpen: open ? 'true' : 'false',
+      menuLabel: open ? 'Close' : 'Menu',
+      toggleMenu: this.toggleMenu,
       links: items.map(it => ({ ...it, current: it.key === active ? 'page' : undefined })),
     };
   }

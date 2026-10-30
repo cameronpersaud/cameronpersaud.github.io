@@ -226,20 +226,74 @@ main.wrap { min-height: 60vh; }
 .pdf-fallback { font-size: 14.5px; color: var(--ink-3); margin-top: 12px; }
 
 /* ── small screens ────────────────────────────────────────────────── */
+/* Menu button and CV page images exist in the markup but only show on phones. */
+.menu-toggle { display: none; }
+.cv-pages { display: none; }
+.cite-authors strong { white-space: nowrap; }
+
 @media (max-width: 680px) {
   body { font-size: 16px; }
-  .site-header { padding-top: 22px; padding-bottom: 18px; }
-  .site-nav { gap: 2px 14px; }
-  .site-nav a { font-size: 14.5px; }
-  .intro { grid-template-columns: 1fr; padding-top: 28px; gap: 20px; }
-  .portrait { width: 116px; height: 116px; }
+
+  /* header: name on the left, Menu on the right; links open as a list below */
+  .site-header {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 0; padding-top: 14px; padding-bottom: 14px;
+  }
+  .wordmark { font-size: 20px; min-height: 44px; gap: 10px; }
+  .wordmark-logo { width: 32px; }
+  .menu-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; min-width: 64px; padding: 0 14px; margin-right: -6px;
+    font: 500 15px/1 var(--font-body); color: var(--ink);
+    background: transparent; border: 1px solid var(--rule); border-radius: 6px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-toggle[aria-expanded="true"] { background: var(--violet-tint); border-color: var(--violet); color: var(--violet); }
+  .site-nav { display: none; flex-basis: 100%; flex-direction: column; gap: 0; margin-top: 10px; }
+  .site-header[data-menu-open="true"] .site-nav { display: flex; }
+  .site-nav a {
+    display: flex; align-items: center; min-height: 48px; padding: 0 2px;
+    font-size: 18px; color: var(--ink); border-top: 1px solid var(--rule);
+  }
+  .site-nav a[aria-current="page"] {
+    color: var(--violet); text-decoration: none; font-weight: 500;
+  }
+
+  /* home intro: smaller portrait so the name and summary come into view sooner */
+  .intro { grid-template-columns: 1fr; padding-top: 20px; gap: 16px; }
+  .portrait { width: 96px; height: 96px; }
+  .intro h1 { font-size: 40px; margin-top: 0; }
+  .intro .role { margin-bottom: 18px; }
+
   .entry, .skill-group, .contact-list li { grid-template-columns: 1fr; gap: 2px; }
-  .section { margin-top: 60px; }
-  .page-head { padding-top: 24px; }
-  .pdf-frame { height: 70vh; }
+  .section { margin-top: 56px; }
+  .page-head { padding-top: 20px; }
+  .page-head h1 { font-size: 38px; }
+
+  /* tap targets: groups of inline links get 44px-tall hit areas */
+  .link-row, .footer-links, .cite-links { gap: 0 20px; }
+  .link-row a, .footer-links a, .cite-links a, .section-more a, .entry-body > a:only-child {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+  .link-row { margin-top: 14px; }
+  .cite-links { margin-top: 2px; }
+  .entry-body:has(> a:only-child) { margin-top: 0; }
+  .contact-list a { display: inline-flex; align-items: center; min-height: 44px; }
+  .contact-list li { padding: 8px 0; }
+  .button { min-height: 44px; padding: 0 16px; }
+  .button-row { gap: 10px; }
+  .button-row .button { flex: 1 1 auto; justify-content: center; }
+
+  .site-footer { margin-top: 80px; flex-direction: column; gap: 4px; padding-bottom: 32px; }
+
+  /* CV: page images instead of the embedded PDF */
+  .pdf-frame, .pdf-frame + .pdf-fallback { display: none; }
+  .cv-pages { display: block; margin-top: 28px; }
+  .cv-page { display: block; margin-bottom: 14px; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: #fff; }
+  .cv-page img { width: 100%; height: auto; display: block; }
 }
 
 @media print {
-  .site-header nav, .site-footer, .skip-link, .button-row { display: none; }
+  .site-header nav, .menu-toggle, .site-footer, .skip-link, .button-row { display: none; }
   body { background: #fff; color: #000; }
 }

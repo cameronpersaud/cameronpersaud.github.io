@@ -31,10 +31,21 @@
     </div>
   </header>
 
+  <!-- Larger screens: the PDF itself. -->
   <div class="pdf-frame">
     <iframe src="assets/Cameron_Persaud_CV.pdf#view=FitH" title="Cameron Persaud CV (PDF)"></iframe>
   </div>
-  <p class="pdf-fallback">If the PDF doesn&rsquo;t show above (common on phones), <a href="assets/Cameron_Persaud_CV.pdf">open it directly</a>.</p>
+  <p class="pdf-fallback">If the PDF doesn&rsquo;t show above, <a href="assets/Cameron_Persaud_CV.pdf">open it directly</a>.</p>
+
+  <!-- Phones: phone browsers won't show a PDF inside a page, so each page is shown as an image instead. -->
+  <div class="cv-pages">
+    <sc-for list="{{cvPages}}" as="pg" hint-placeholder-count="3">
+      <a href="assets/Cameron_Persaud_CV.pdf" class="cv-page">
+        <img src="{{pg.src}}" alt="{{pg.alt}}" width="1200" height="1553" loading="lazy" />
+      </a>
+    </sc-for>
+    <p class="pdf-fallback">Tap a page to open the PDF.</p>
+  </div>
 </main>
 
 <dc-import name="Footer" hint-size="100%,120px"></dc-import>
@@ -43,8 +54,14 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   renderVals() {
-    // Update this when you replace assets/Cameron_Persaud_CV.pdf.
-    return { cvUpdated: 'October 2026' };
+    // When you replace assets/Cameron_Persaud_CV.pdf, update the date below and
+    // the page images in assets/cv-pages/ (one image per PDF page, 1200px wide).
+    const pageCount = 3;
+    const cvPages = Array.from({ length: pageCount }, (_, i) => ({
+      src: `assets/cv-pages/page-${i + 1}.webp`,
+      alt: `CV page ${i + 1} of ${pageCount}`,
+    }));
+    return { cvUpdated: 'October 2026', cvPages };
   }
 }
 </script>
