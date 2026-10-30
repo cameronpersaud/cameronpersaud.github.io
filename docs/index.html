@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BrainStack 3D</title>
+<meta name="description" content="Reconstruct serial fluorescence brain sections in 3D and map where red dextran dye sits. Runs entirely in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header>
+  <div class="head gutter">
+    <div class="brand">BrainStack <span>3D</span></div>
+    <ol class="steps" id="steps">
+      <li><button type="button" data-step="0"><span class="n">1</span>Import slices</button></li>
+      <li><button type="button" data-step="1"><span class="n">2</span>Set the scale</button></li>
+      <li><button type="button" data-step="2"><span class="n">3</span>Dye &amp; channels</button></li>
+      <li><button type="button" data-step="3"><span class="n">4</span>Align slices</button></li>
+      <li><button type="button" data-step="4"><span class="n">5</span>Dye in 3D</button></li>
+    </ol>
+    <div class="privacy">Your images never leave this computer: everything runs in your browser.</div>
+  </div>
+</header>
+
+<main class="gutter">
+  <!-- ======================================================= 1 IMPORT -->
+  <section class="step" id="step-0">
+    <h1>Import slices</h1>
+    <p class="lede">Add your section images and tell BrainStack how they were cut. The list is kept in anatomical order, with slice 1 at the top.</p>
+    <div class="grid2">
+      <div>
+        <div class="card">
+          <h2>Slices in order</h2>
+          <div class="drop" id="drop">Drag images or a folder here, or
+            <label class="btn" for="file-input" style="margin-left:6px">Choose images…</label>
+            <input type="file" id="file-input" multiple accept=".tif,.tiff,.png,.jpg,.jpeg,.bmp" hidden>
+            <div class="hint">TIFF (8/16-bit, multi-channel, multi-page), PNG or JPG</div>
+          </div>
+          <ul class="files" id="files"><li class="empty">No images yet</li></ul>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" type="button" id="f-sort">Sort by name</button>
+            <button class="btn" type="button" id="f-up" aria-label="Move selected slice up">↑</button>
+            <button class="btn" type="button" id="f-down" aria-label="Move selected slice down">↓</button>
+            <button class="btn" type="button" id="f-remove">Remove</button>
+            <button class="btn" type="button" id="f-clear">Clear all</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Working detail</h2>
+          <select id="res">
+            <option value="400">Fast (400 px)</option>
+            <option value="600" selected>Balanced (600 px) — recommended</option>
+            <option value="900">Detailed (900 px, slower)</option>
+          </select>
+          <p class="hint">Every image is shrunk by the <b>same</b> factor, so a pixel means the same distance in every slice.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>How were the slices cut?</h2>
+          <div class="row" style="align-items:flex-start;gap:16px">
+            <div class="stack" style="min-width:170px">
+              <label class="radio"><input type="radio" name="plane" value="coronal" checked> Coronal</label>
+              <label class="radio"><input type="radio" name="plane" value="sagittal"> Sagittal</label>
+              <label class="radio"><input type="radio" name="plane" value="transverse"> Transverse / horizontal</label>
+            </div>
+            <canvas class="plane-pic" id="plane-pic" style="flex:1;min-width:200px"></canvas>
+          </div>
+          <p class="hint" id="plane-desc"></p>
+          <div class="form" style="margin-top:10px">
+            <label for="order">My files are numbered</label><select id="order"></select>
+            <label for="top-is" id="top-is-l">Top of each image is</label>
+            <select id="top-is"><option value="1">the top of the brain (dorsal)</option><option value="0">the bottom of the brain (ventral)</option></select>
+            <label for="nose" id="nose-l">In the images the nose points</label>
+            <select id="nose"><option value="left">left</option><option value="right">right</option></select>
+            <label for="front" id="front-l">In the images the nose points</label>
+            <select id="front"><option value="up">up</option><option value="down">down</option></select>
+            <label for="right-is" id="right-is-l">Right side of each image is</label>
+            <select id="right-is"><option value="right">the animal's right</option><option value="left">the animal's left</option><option value="unknown">not sure</option></select>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Preview</h2>
+          <canvas class="preview" id="import-preview" width="10" height="10"></canvas>
+          <p class="hint" id="import-info">Select a slice to preview it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= 2 SCALE -->
+  <section class="step" id="step-1">
+    <h1>Set the scale</h1>
+    <p class="lede">Each 3D pixel is (pixel size) × (pixel size) × (slice spacing). Get the pixel size from your microscope if you can; the other two methods are estimates or need a scale bar.</p>
+    <div class="grid2">
+      <div>
+        <div class="card">
+          <h2>Distance between slices</h2>
+          <div class="form"><label for="z-um">Slice spacing (µm)</label><input type="number" id="z-um" value="200" min="0.1" step="any"></div>
+          <p class="hint">Centre-to-centre distance between consecutive images. Cut 50 µm sections and imaged every 4th? Enter 200.</p>
+        </div>
+        <div class="card stack">
+          <h2>Pixel size</h2>
+          <label class="radio"><input type="radio" name="cal" value="micro"> <span>I know the microscope's µm per pixel <span class="hint">(most accurate)</span></span></label>
+          <div class="form" id="cal-micro" style="padding-left:24px">
+            <label for="um-px">µm per pixel (original images)</label><input type="number" id="um-px" value="1" min="0.0001" step="any">
+          </div>
+          <label class="radio"><input type="radio" name="cal" value="tissue" checked> <span>Estimate from the real size of the tissue</span></label>
+          <div class="form" id="cal-tissue" style="padding-left:24px">
+            <label for="real-um">Real tissue size (µm)</label><input type="number" id="real-um" value="6000" min="1" step="any">
+            <label for="dim">This is the</label>
+            <select id="dim"><option value="height">shortest dimension (height)</option><option value="width">longest dimension (length)</option></select>
+          </div>
+          <label class="radio"><input type="radio" name="cal" value="bar"> <span>Measure a scale bar in an image</span></label>
+          <div class="form" id="cal-bar" style="padding-left:24px">
+            <label for="bar-um">Scale bar length (µm)</label><input type="number" id="bar-um" value="1000" min="0.01" step="any">
+            <label for="bar-slice">Image</label><select id="bar-slice"></select>
+          </div>
+        </div>
+        <div class="card"><h2>Result</h2><div class="result" id="cal-result"></div></div>
+      </div>
+      <div class="card">
+        <h2>Image</h2>
+        <canvas class="preview" id="cal-preview" width="10" height="10"></canvas>
+        <p class="hint" id="cal-caption"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= 3 DYE & CHANNELS -->
+  <section class="step" id="step-2">
+    <h1>Dye &amp; channels</h1>
+    <p class="lede">Choose the channel with the red dextran. Any other channel (e.g. DAPI) is used as the brain. If the dye is the only channel, the brain outline comes from the tissue's own faint glow.</p>
+    <div class="grid2">
+      <div>
+        <div class="card">
+          <h2>Red dextran</h2>
+          <div class="form"><label for="dye-ch">The dye is in</label><select id="dye-ch"></select></div>
+          <div id="chan-note" class="hint"></div>
+        </div>
+        <div class="card">
+          <h2>Channels</h2>
+          <div id="chan-list" class="stack"></div>
+        </div>
+        <div class="card">
+          <h2>Tissue outline</h2>
+          <div class="form">
+            <label for="sens">Sensitivity</label><input type="range" id="sens" min="40" max="250" value="100">
+          </div>
+          <p class="hint">The yellow line should hug the tissue. Slide right if tissue is missed, left if background is included.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Preview</h2>
+        <canvas class="preview" id="prep-preview" width="10" height="10"></canvas>
+        <div class="row" style="margin-top:8px"><span id="prep-label" class="legend" style="min-width:90px">Slice 1</span><input type="range" id="prep-slice" min="0" max="0" value="0" style="flex:1"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= 4 ALIGN -->
+  <section class="step" id="step-3">
+    <h1>Align slices</h1>
+    <p class="lede">Line every slice up with its neighbours. Then scrub through the overlay and fix any that look off.</p>
+    <div class="grid2" style="grid-template-columns:minmax(0,7fr) minmax(0,5fr)">
+      <div class="card">
+        <h2>Overlay check</h2>
+        <p class="legend"><b class="key-m">Magenta</b> = neighbouring slice · <b class="key-g">green</b> = this slice · <b>white = they line up</b></p>
+        <canvas class="preview" id="align-preview" width="10" height="10"></canvas>
+        <div class="row" style="margin-top:8px">
+          <span id="align-label" class="legend" style="min-width:110px">Slice 1</span>
+          <input type="range" id="align-slice" min="0" max="0" value="0" style="flex:1">
+          <select id="align-cmp" style="width:auto"><option value="prev">vs previous</option><option value="next">vs next</option></select>
+        </div>
+      </div>
+      <div>
+        <div class="card stack">
+          <h2>Automatic alignment</h2>
+          <label class="radio"><input type="checkbox" id="opt-upright" checked> All slices are upright (top of the brain at the top)</label>
+          <label class="radio"><input type="checkbox" id="opt-mirror" checked> Check for mirrored slices (mounted face-down; sagittal sections only)</label>
+          <div class="row"><button class="btn primary" type="button" id="auto-align">Auto-align all slices</button>
+            <button class="btn" type="button" id="no-align">Already aligned</button></div>
+          <p class="hint" id="align-status">Not aligned yet.</p>
+        </div>
+        <div class="card">
+          <h2>Which way does each slice face?</h2>
+          <div class="thumbs" id="thumbs"></div>
+          <p class="hint">All slices should face the same way. Click a slice to mirror it (red frame = mirrored), then press Auto-align again. The automatic check is a suggestion; it can miss slices whose outline looks similar both ways round.</p>
+        </div>
+        <div class="card stack">
+          <h2>Fix this slice by hand</h2>
+          <div class="form">
+            <label for="m-x">Move right (px)</label><input type="number" id="m-x" step="1" value="0">
+            <label for="m-y">Move down (px)</label><input type="number" id="m-y" step="1" value="0">
+            <label for="m-a">Rotate clockwise (°)</label><input type="number" id="m-a" step="0.5" value="0">
+            <label for="m-f">Mirror</label><input type="checkbox" id="m-f">
+          </div>
+          <div class="row"><button class="btn" type="button" id="realign-one">Re-align this slice</button><button class="btn" type="button" id="reset-one">Reset</button></div>
+          <p class="hint">Tip: click a box and use ↑/↓ to nudge. For a mirrored slice, tick Mirror, then Re-align this slice.</p>
+        </div>
+        <div class="card">
+          <h2>Straighten the whole stack</h2>
+          <div class="row"><button class="btn" type="button" data-rot="-90">⟲ 90°</button><button class="btn" type="button" data-rot="-5">⟲ 5°</button>
+            <button class="btn" type="button" data-rot="5">⟳ 5°</button><button class="btn" type="button" data-rot="90">⟳ 90°</button></div>
+          <p class="hint" id="straight-hint"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= 5 3D -->
+  <section class="step" id="step-4">
+    <div class="grid-view">
+      <div>
+        <div class="stage" id="stage">
+          <canvas class="gl" id="gl" aria-label="Rotatable 3D model of the brain with the dye inside"></canvas>
+          <div class="hud" id="hud"></div>
+          <div class="cams">
+            <button class="btn" type="button" data-cam="3d">3D angle</button>
+            <button class="btn" type="button" data-cam="side">Side</button>
+            <button class="btn" type="button" data-cam="top">Top</button>
+            <button class="btn" type="button" data-cam="front">Front</button>
+            <button class="btn" type="button" id="spin" aria-pressed="false">Auto-rotate</button>
+          </div>
+          <canvas class="compass" id="compass" width="180" height="180" aria-hidden="true"></canvas>
+        </div>
+        <p class="hint">Drag to rotate · scroll to zoom · right-drag to pan. Red = dye, grey = brain outline, yellow dot = centre of the dye.</p>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Where is the dye?</h2>
+          <div id="report"></div>
+        </div>
+        <div class="card stack">
+          <h2>Dye detection</h2>
+          <label class="radio"><input type="radio" name="dmode" value="auto" checked> All detectable dye (automatic, per slice)</label>
+          <label class="radio"><input type="radio" name="dmode" value="core"> Dense core only (≥ half the brightest)</label>
+          <label class="radio"><input type="radio" name="dmode" value="manual"> Set the level myself</label>
+          <div class="row"><input type="range" id="dlevel" min="3" max="250" value="60" style="flex:1"><span id="dlevel-v" class="legend" style="min-width:28px">60</span></div>
+        </div>
+        <div class="card stack">
+          <h2>Display</h2>
+          <div class="form">
+            <label for="brain-op">Brain opacity</label><input type="range" id="brain-op" min="0" max="80" value="18">
+            <label for="dye-op">Dye opacity</label><input type="range" id="dye-op" min="10" max="100" value="95">
+          </div>
+        </div>
+        <div class="card">
+          <h2>Download</h2>
+          <div class="row">
+            <button class="btn" type="button" id="dl-csv">Dye report (CSV)</button>
+            <button class="btn" type="button" id="dl-png">Picture (PNG)</button>
+            <button class="btn" type="button" id="dl-dye">Dye shape (STL)</button>
+            <button class="btn" type="button" id="dl-brain">Brain surface (STL)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot gutter">
+    <div class="status" id="status" role="status">Add your slice images to begin.</div>
+    <progress id="progress" max="100" value="0" hidden></progress>
+    <button class="btn" type="button" id="back">◀ Back</button>
+    <button class="btn primary" type="button" id="next">Next ▶</button>
+  </div>
+</footer>
+
+<dialog id="dlg">
+  <h3 id="dlg-title"></h3>
+  <p id="dlg-body" style="white-space:pre-line"></p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" type="button" id="dlg-no">Keep them</button>
+    <button class="btn primary" type="button" id="dlg-yes">Leave them out</button>
+  </div>
+</dialog>
+
+<script src="vendor/pako_inflate.min.js"></script>
+<script src="vendor/UTIF.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
