@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cameron Persaud</title>
+<meta name="description" content="Cameron Persaud is a neuroscience student and researcher at Stony Brook University studying cerebrospinal fluid flow and adult neurogenesis, with research at Johns Hopkins, Stony Brook Medicine, and Lenox Hill Hospital.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="canonical" href="https://cameronpersaud.nyc/">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="theme-color" content="#06070b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cameron Persaud">
+<meta property="og:description" content="Neuroscience student and researcher at Stony Brook University studying cerebrospinal fluid flow and adult neurogenesis.">
+<meta property="og:url" content="https://cameronpersaud.nyc/">
+<meta property="og:image" content="https://cameronpersaud.nyc/assets/headshot.webp">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a dark stage with one spotlight on a rotating brain, then a lab notebook:
+     a sticky label rail on the left, entries on the right. */
+  --stage:#06070b;        /* the black stage */
+  --panel:#0d0f17;        /* the one raised surface, used only where elevation means "current" or "featured" */
+  --line:#1d2130;         /* hairlines */
+  --ink:#eceef6;          /* primary text */
+  --soft:#c9cddb;         /* running text */
+  --dim:#8d93a8;          /* secondary text */
+  --brand:#0001fb;        /* Cameron's logo blue, sampled from the logo file */
+  --signal:#7482ff;       /* the same hue lifted for readable text on black */
+  --display:"Archivo", "Helvetica Neue", Arial, sans-serif;  /* expanded, for display only */
+  --body:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  /* type scale: every size on the page comes from here */
+  --fs-label:12px; --fs-sm:14px; --fs-body:16px; --fs-md:18px; --fs-lg:clamp(20px,2vw,24px); --fs-xl:clamp(24px,2.6vw,32px);
+  /* radius: small for tags and chips, medium for the few real cards, pill for buttons */
+  --r-sm:4px; --r-md:8px; --r-pill:999px;
+  /* film grain in place of gradients on raised panels */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --gutter:clamp(18px, 4vw, 56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--stage);color:var(--ink);font:400 var(--fs-body)/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--signal);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0;text-wrap:pretty}
+.mono{font-family:var(--mono);font-size:var(--fs-label);line-height:1.4;letter-spacing:.08em;text-transform:uppercase}
+.skip{position:absolute;left:-999px;top:8px;background:var(--brand);color:#fff;padding:8px 12px;z-index:30}
+.skip:focus{left:8px}
+
+/* NAV */
+.site-header{position:fixed;inset:0 0 auto 0;z-index:20;background:transparent;border-bottom:1px solid transparent;transition:background-color .25s,border-color .25s}
+.site-header.solid{background:rgba(6,7,11,.9);backdrop-filter:blur(8px);border-bottom-color:var(--line)}
+@media (prefers-reduced-motion:reduce){.site-header{transition:none}}
+.nav{display:flex;align-items:center;gap:24px;padding:12px var(--gutter)}
+.nav .mark{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none}
+.nav .mark img{width:48px;height:auto}
+.nav .mark span{font:700 var(--fs-label)/1 var(--display);font-stretch:118%;letter-spacing:.14em}
+.nav ul{list-style:none;display:flex;gap:clamp(12px,2vw,28px);margin:0 0 0 auto;padding:0}
+.nav ul a{color:var(--dim);text-decoration:none;font:500 var(--fs-label)/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.nav ul a:hover{color:var(--ink)}
+@media (max-width:820px){.nav ul li.opt{display:none}}
+@media (max-width:480px){.nav .mark span{display:none}}
+
+/* HERO */
+.hero{position:relative;min-height:clamp(600px, 92dvh, 980px);display:grid;align-items:end;overflow:hidden;isolation:isolate}
+#neurons{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+/* the spotlight is the one deliberate gradient on the page: it is the light source the brain is lit by */
+.beam{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 34% 62% at var(--sx,58%) -6%, rgba(205,212,255,.14), rgba(120,132,255,.05) 45%, transparent 72%)}
+.hero-inner{padding:0 var(--gutter) clamp(28px,5vh,56px);display:grid;gap:24px}
+/* the wordmark keeps an extra-heavy weight; everything else stays at bold or below */
+.name{font-family:var(--display);font-weight:800;font-stretch:125%;line-height:.84;letter-spacing:-.025em;
+  font-size:clamp(40px, 8.2vw, 128px);text-transform:uppercase}
+.name span{display:block}
+.name span:last-child{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+@supports not (-webkit-text-stroke:1px #fff){.name span:last-child{color:var(--ink)}}
+.ticker{margin:0;border-top:1px solid var(--line);padding-top:16px;color:var(--signal);font-size:var(--fs-sm);letter-spacing:.22em}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);border-radius:var(--r-pill);
+  color:var(--ink);text-decoration:none;font:500 var(--fs-label)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;cursor:pointer}
+.btn:hover{border-color:var(--signal);color:var(--ink)}
+.btn:active{opacity:.8}
+.btn.solid{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.solid:hover{background:#2230ff}
+
+/* SECTIONS */
+section.block{display:grid;grid-template-columns:minmax(250px,320px) minmax(0,1fr);gap:24px clamp(24px,5vw,80px);
+  padding:clamp(64px,9vw,120px) var(--gutter);border-top:1px solid var(--line)}
+.rail{position:sticky;top:84px;align-self:start;display:grid;gap:10px}
+.rail .mono{color:var(--signal)}
+.rail h2{font-family:var(--display);font-weight:700;font-stretch:112%;font-size:clamp(22px,2vw,28px);line-height:1.08;letter-spacing:-.005em;text-transform:uppercase;overflow-wrap:break-word}
+.rail p{color:var(--dim);font-size:var(--fs-sm)}
+.content{display:grid;gap:16px;min-width:0}
+@media (max-width:820px){section.block{grid-template-columns:1fr}.rail{position:static}}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:clamp(24px,4vw,56px);align-items:start}
+.portrait{position:relative;aspect-ratio:2/3;isolation:isolate;max-width:360px}
+/* the headshot is lit by the same spotlight as the hero */
+.portrait::before{content:"";position:absolute;inset:-6% -16% 0;z-index:-1;
+  background:radial-gradient(ellipse 52% 46% at 50% 30%, rgba(170,180,255,.2), rgba(0,1,251,.1) 48%, transparent 74%)}
+.portrait::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(transparent,var(--stage))}
+.portrait img{width:100%;height:100%;object-fit:contain;object-position:bottom;filter:contrast(1.04) saturate(.95)}
+.lede{font-family:var(--display);font-stretch:100%;font-weight:500;font-size:var(--fs-xl);line-height:1.25;letter-spacing:-.01em;max-width:30ch}
+.lede em{font-style:normal;color:var(--signal)}
+.about .copy{display:grid;gap:24px;max-width:62ch}
+.about .copy>p{color:var(--soft)}
+.edu{display:grid;border-top:1px solid var(--line)}
+.edu div{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.edu b{font-weight:500}
+.edu span{color:var(--dim);font-size:var(--fs-sm)}
+.edu time{font:400 var(--fs-label)/1.4 var(--mono);color:var(--dim);white-space:nowrap;align-self:start;padding-top:4px}
+@media (max-width:820px){.about{grid-template-columns:1fr}.portrait{max-width:300px}}
+
+/* ENTRIES (research, healthcare, leadership) */
+.entry{display:grid;grid-template-columns:150px 1fr;gap:8px 28px;padding:24px 0;border-bottom:1px solid var(--line)}
+.entry:first-child{border-top:1px solid var(--line)}
+.entry time{font:400 var(--fs-label)/1.4 var(--mono);color:var(--dim);padding-top:4px}
+.entry .now{color:var(--signal)}
+.entry .now::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:1px}
+.entry h3{font-family:var(--body);font-weight:600;font-size:var(--fs-md);line-height:1.35}
+.entry .org{color:var(--dim);font-size:var(--fs-sm);margin-top:2px}
+.entry ul{margin:12px 0 0;padding-left:18px;color:var(--soft);display:grid;gap:4px}
+.entry ul li::marker{color:var(--signal)}
+.entry .desc{margin-top:12px;color:var(--soft);max-width:68ch}
+@media (max-width:600px){.entry{grid-template-columns:1fr}}
+/* a real card: only for current positions */
+.feature{position:relative;padding:32px;border:1px solid rgba(116,130,255,.35);border-radius:var(--r-md);background:var(--grain), var(--panel);margin-bottom:8px}
+.feature .mono{color:var(--signal)}
+.feature h3{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:var(--fs-xl);line-height:1.12;margin:12px 0 6px;letter-spacing:-.01em}
+.feature .org{color:var(--dim);font-size:var(--fs-sm)}
+.feature .desc{margin-top:12px;color:var(--soft)}
+.projects{list-style:none;margin:24px 0 0;padding:0;border-top:1px solid var(--line)}
+.projects li{display:grid;grid-template-columns:48px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:500;line-height:1.4}
+.projects li span{font:400 var(--fs-label)/1.6 var(--mono);color:var(--signal);letter-spacing:.06em}
+
+/* PUBLICATIONS */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.filters button{font:500 var(--fs-label)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 12px;cursor:pointer}
+.filters button[aria-pressed="true"]{color:#fff;background:var(--brand);border-color:var(--brand)}
+.filters button:hover{color:var(--ink)}
+.filters button:active{opacity:.8}
+.pubs{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.pubs li{display:grid;grid-template-columns:150px 1fr;gap:8px 28px;padding:20px 0;border-bottom:1px solid var(--line)}
+.pubs li[hidden]{display:none}
+.pubs .kind{font:500 var(--fs-label)/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--signal)}
+.pubs .kind time{display:block;color:var(--dim);margin-top:4px}
+.pubs .t{font-weight:500;line-height:1.45}
+.pubs .a{color:var(--dim);font-size:var(--fs-sm);margin-top:4px}
+.pubs .a b{color:var(--ink);font-weight:600}
+.pubs .v{font-size:var(--fs-sm);margin-top:4px;color:var(--soft)}
+/* journal names stay italic: that is citation convention, not emphasis */
+.pubs .v i{font-style:italic}
+@media (max-width:600px){.pubs li{grid-template-columns:1fr}}
+.ids{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* BUILDS & AWARDS */
+.builds{display:grid;grid-template-columns:1.25fr 1fr;gap:0 32px}
+.build{display:grid;gap:8px;align-content:start;padding:24px 0;border-top:1px solid var(--line)}
+.build + .build + .build{border-bottom:1px solid var(--line)}
+.build.lead{grid-row:span 2;padding:32px;border:1px solid rgba(116,130,255,.45);border-radius:var(--r-md);background:var(--grain), var(--panel)}
+.build h3{font-family:var(--display);font-stretch:112%;font-weight:700;font-size:var(--fs-lg);line-height:1.1;letter-spacing:-.01em}
+.build.lead h3{font-size:clamp(36px,4.2vw,56px);text-transform:uppercase;line-height:1}
+.build .mono{color:var(--signal)}
+.build p{color:var(--soft)}
+.build .who{color:var(--dim);font-size:var(--fs-sm)}
+.badge{justify-self:start;display:inline-flex;align-items:center;font:500 var(--fs-label)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--brand);padding:6px 8px;border-radius:var(--r-sm)}
+@media (max-width:820px){.builds{grid-template-columns:1fr}.build.lead{grid-row:auto;margin-bottom:8px}}
+.awards{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
+.awards li{display:grid;grid-template-columns:150px 1fr;gap:4px 28px;padding:16px 0;border-bottom:1px solid var(--line)}
+.awards time{font:400 var(--fs-label)/1.4 var(--mono);color:var(--dim);padding-top:4px}
+.awards b{font-weight:500}
+.awards span{display:block;color:var(--dim);font-size:var(--fs-sm)}
+@media (max-width:600px){.awards li{grid-template-columns:1fr}}
+
+/* ART */
+.art{display:grid;gap:clamp(16px,3vw,32px)}
+.plate{margin:0;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line)}
+.plate img{width:100%;height:auto}
+.art h3{font-family:var(--display);font-stretch:100%;font-weight:300;font-size:clamp(32px,4.6vw,64px);line-height:1;letter-spacing:-.02em}
+.art .mono{color:var(--signal)}
+.art p{color:var(--soft);margin-top:12px}
+
+/* SKILLS */
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:32px 40px}
+.skills h3{font:500 var(--fs-label)/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--signal);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.chips li{font-size:var(--fs-sm);border:1px solid var(--line);border-radius:var(--r-sm);padding:4px 8px;color:var(--soft)}
+@media (max-width:700px){.skills{grid-template-columns:1fr}}
+
+/* CV */
+.cvrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cvrow p{color:var(--dim)}
+.cvrow b{display:block;color:var(--ink);font-weight:600;font-size:var(--fs-md)}
+
+/* FINALE */
+.finale{padding:clamp(80px,12vw,160px) var(--gutter) 24px;border-top:1px solid var(--line)}
+.finale .mono{color:var(--signal)}
+.finale h2{font-family:var(--display);font-weight:800;font-stretch:125%;text-transform:uppercase;letter-spacing:-.025em;line-height:.86;font-size:clamp(44px,10.5vw,168px);margin:16px 0 32px}
+.contact{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+.email{font:500 var(--fs-lg)/1.2 var(--body);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--brand)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.site-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin:0 var(--gutter);padding:16px 0 32px;border-top:1px solid var(--line);color:var(--dim);font-size:var(--fs-sm)}
+.build .sub{color:var(--ink);font-weight:600}
+.start{justify-self:start}
+.note{color:var(--dim);font-size:var(--fs-sm)}
+.art-title{margin-top:12px}
+#copied{color:var(--signal);font:400 var(--fs-label)/1.4 var(--mono);min-height:1em}
+</style>
+</head>
+<body>
+<a class="skip" href="#about">Skip to content</a>
+
+<header class="site-header">
+<nav class="nav" aria-label="Main">
+  <a class="mark" href="#top" aria-label="Cameron Persaud, back to top">
+    <img src="assets/logo.webp" alt="" width="50" height="47">
+    <span>CAMERON PERSAUD</span>
+  </a>
+  <ul>
+    <li class="opt"><a href="#research">Research</a></li>
+    <li class="opt"><a href="#publications">Publications</a></li>
+    <li><a href="#builds">Builds</a></li>
+    <li class="opt"><a href="#art">Art</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main id="main">
+<section class="hero" id="top" aria-label="Introduction">
+  <canvas id="neurons" aria-hidden="true"></canvas>
+  <div class="beam" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <h1 class="name"><span>Cameron</span><span>Persaud</span></h1>
+    <p class="ticker mono">Neuroscience and Biotechnology</p>
+  </div>
+</section>
+
+<section class="block" id="about" aria-labelledby="about-h">
+  <div class="rail">
+    <span class="mono">About</span>
+    <h2 id="about-h">Neurogenesis and CSF flow</h2>
+  </div>
+  <div class="content">
+    <div class="about">
+      <div class="portrait"><img src="assets/headshot.webp" alt="Portrait of Cameron Persaud" width="760" height="1140"></div>
+      <div class="copy">
+        <p class="lede">Neuroscience student at Stony Brook, working on manipulating cerebrospinal fluid flow and its impact on <em>adult neurogenesis</em></p>
+        <p>I'm a research assistant in Dr. Shaoyu Ge's lab, where I study new neurons in the dentate gyrus. I also work with BESAFE, where we study the impact of medicine quality on maternal, infant, and child health in low- and middle-income countries across Africa. Outside the lab I design medical devices at hackathons, mentor BME student projects, and lead Oncology Society Inc.</p>
+        <div class="edu" aria-label="Education">
+          <div><p><b>M.S. Neuroscience</b><br><span>Stony Brook University</span></p><time>May 2029</time></div>
+          <div><p><b>B.S. Biology</b><br><span>Stony Brook University</span></p><time>Dec 2026</time></div>
+          <div><p><b>Honors College, Dean's List (2 semesters)</b><br><span>St. John's University · freshman year completed</span></p><time>May 2023</time></div>
+          <div><p><b>Clinical Medical Assistant Course</b><br><span>Adelphi University</span></p><time>Jan 2026</time></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="research" aria-labelledby="research-h">
+  <div class="rail">
+    <span class="mono">2024 – now</span>
+    <h2 id="research-h">Research</h2>
+    <p>Neuroscience, neurosurgery, and public health</p>
+  </div>
+  <div class="content">
+    <article class="feature">
+      <span class="mono">Current · Research Assistant · May 2026 – now</span>
+      <h3>Ge Lab, Department of Neurobiology and Behavior</h3>
+      <p class="org">Stony Brook University · Dr. Shaoyu Ge</p>
+      <ol class="projects" aria-label="Projects"><li><span>01</span>Understanding neurogenesis in the dentate gyrus</li><li><span>02</span>Designing a microfluidic pump for CSF drug delivery</li><li><span>03</span>Multifocal stimulation of the dura mater</li></ol>
+    </article>
+    <article class="feature">
+      <span class="mono">Current · Research Assistant · Jul 2025 – now</span>
+      <h3>BESAFE: Behavioral and Educational Strategies for Avoiding Falsified Medicine Exposure</h3>
+      <p class="org">Johns Hopkins Bloomberg School of Public Health · Dr. Saifuddin Ahmed</p>
+      <ol class="projects" aria-label="Projects"><li><span>01</span>Quantifying the burden of substandard and falsified medicines on maternal, infant, and child health across LMICs in Africa</li><li><span>02</span>Studying the effect of illegal online sales of GLP-1 medications</li></ol>
+    </article>
+    <div>
+      <article class="entry">
+        <time>Jun – Dec 2025</time>
+        <div>
+          <h3>Effect of race on health outcomes in adults hospitalized with COVID-19</h3>
+          <p class="org">Johns Hopkins School of Medicine · Dr. Henry Michtalik · Research Assistant</p>
+          <ul><li>Systematic review of US-based adult patients hospitalized with COVID-19</li></ul>
+        </div>
+      </article>
+      <article class="entry">
+        <time>Jun 2024 – Oct 2025</time>
+        <div>
+          <h3>Purification and activity of CHD1 with macroH2A</h3>
+          <p class="org">Stony Brook Medicine, Pharmacology · Dr. Dongyan Tan · Student Researcher</p>
+          <p class="desc">In Stony Brook&#39;s Pharmacology Department, I conducted basic science research under Dr. Tan. My project involved cloning and purifying the chromatin remodeler CHD1. Chromatin remodelers regulate gene expression by sliding a nucleosome to a different position. Our lab has found a connection between the impeded movement of the chromatin remodeler INO80 and nucleosomes containing the histone variant macroH2A. Irregular concentrations of macroH2A are associated with carcinogenesis in melanoma, lung, bladder, and breast cancers, due to its role in suppressing cancer-promoting genes. Understanding the connection between CHD1 and INO80 can help us understand the mechanism of cancer development and aid in the development of oncological treatments.</p>
+        </div>
+      </article>
+      <article class="entry">
+        <time>Jan 2024 – Feb 2025</time>
+        <div>
+          <h3>Inpatient rehabilitation for patients with brain metastasis</h3>
+          <p class="org">Lenox Hill Hospital, Neurosurgery · Dr. Randy D'Amico · Research Assistant</p>
+          <ul>
+            <li>Collected statistics on metastatic patients</li>
+            <li>Wrote on the history of post-surgical rehabilitation for brain and spinal metastasis patients</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="publications" aria-labelledby="pubs-h">
+  <div class="rail">
+    <span class="mono">8 entries</span>
+    <h2 id="pubs-h">Publications &amp; presentations</h2>
+    <p>Papers, posters, hackathons, and exhibited work</p>
+    <div class="ids">
+      <a class="btn" href="https://scholar.google.com/citations?user=836-B0YAAAAJ&amp;hl=en">Google Scholar</a>
+      <a class="btn" href="https://orcid.org/0009-0005-1488-1659">ORCID</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="filters" role="group" aria-label="Filter by type">
+      <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+      <button type="button" id="f-paper" data-f="paper" aria-pressed="false">Papers</button>
+      <button type="button" id="f-poster" data-f="poster" aria-pressed="false">Posters</button>
+      <button type="button" id="f-build" data-f="build" aria-pressed="false">Hackathons</button>
+      <button type="button" id="f-art" data-f="art" aria-pressed="false">Exhibitions</button>
+    </div>
+    <ol class="pubs" id="pubs">
+      <li data-k="build"><p class="kind">Hackathon<time>Nov 15, 2026</time></p>
+        <div><p class="t">Asclepius: Robotic Surgical Trainer</p><p class="a"><b>Persaud C</b>, Li M.</p><p class="v">HackPrinceton, Princeton University</p></div></li>
+      <li data-k="poster"><p class="kind">Poster<time>2026</time></p>
+        <div><p class="t">Nearly one in five essential medicines fail quality standards in Africa: a systematic review and meta-analysis of MNCH medicines and antimalarials</p><p class="a">Rusatira JC, Novoa MD, Uwimana JB, <b>Persaud C</b>, Pal E, et al.</p><p class="v">MACUB 2026, Seton Hall University, New Jersey</p></div></li>
+      <li data-k="paper"><p class="kind">Journal article<time>2026</time></p>
+        <div><p class="t">Nearly one in five essential medicines fail quality standards in Africa: a systematic review and meta-analysis of MNCH medicines and antimalarials</p><p class="a">Rusatira JC, Novoa MD, Uwimana JB, <b>Persaud C</b>, Pal E, et al.</p><p class="v"><i>PLOS Global Public Health</i> 6(9): e0006326 · <a href="https://doi.org/10.1371/journal.pgph.0006326">doi:10.1371/journal.pgph.0006326</a></p></div></li>
+      <li data-k="art"><p class="kind">Exhibition<time>Jul 22, 2026</time></p>
+        <div><p class="t">The Creation of Memories</p><p class="a"><b>Persaud C</b>.</p><p class="v">2026 Beauty in Life Show, Khôra Gallery, Stony Brook University</p></div></li>
+      <li data-k="build"><p class="kind">Hackathon<time>Jun 21, 2026</time></p>
+        <div><p class="t">MindPiece Initiative</p><p class="a"><b>Persaud C</b>, Li M, Zheng E.</p><p class="v">Mission:Brain Global Neurosurgery Hackathon, online · Organizer's Choice Award</p></div></li>
+      <li data-k="build"><p class="kind">Hackathon<time>Apr 25, 2026</time></p>
+        <div><p class="t">Wolfie Run: Rehabilitation for Occipital Infarction Patients</p><p class="a"><b>Persaud C</b>, Li M, Gao C, Leung J, Zheng E.</p><p class="v">3rd Annual Healthcare Innovation Challenge, Stony Brook University</p></div></li>
+      <li data-k="paper"><p class="kind">Journal article<time>Apr 2025</time></p>
+        <div><p class="t">Optimizing post-acute care inpatient rehabilitation for patients with brain metastasis: a systematic review of functional outcomes</p><p class="a">Donnelly BM, Stark KG, <b>Persaud CJ</b>, D'Amico RS, Davidoff CI.</p><p class="v"><i>Supportive Care in Cancer</i> 33(5):418 · <a href="https://doi.org/10.1007/s00520-025-09468-9">doi:10.1007/s00520-025-09468-9</a> · PMID 40278896</p></div></li>
+      <li data-k="poster"><p class="kind">Poster<time>2024</time></p>
+        <div><p class="t">Enhancing Rehabilitation Outcomes in Brain Metastases Patients: A Review of Challenges, Current Practices, and Future Directions</p><p class="a">Donnelly B, Stark K, <b>Persaud C</b>, D'Amico R, Davidoff C.</p><p class="v">CNS 2024, Houston, Texas</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="builds" aria-labelledby="builds-h">
+  <div class="rail">
+    <span class="mono">2026</span>
+    <h2 id="builds-h">Builds &amp; awards</h2>
+    <p>Medical devices and health initiatives designed under hackathon deadlines</p>
+  </div>
+  <div class="content">
+    <div class="builds">
+      <article class="build lead">
+        <span class="mono">HackPrinceton · Nov 15, 2026</span>
+        <h3>Asclepius</h3>
+        <p class="sub">Robotic surgical trainer</p>
+        <p class="who">With M. Li · Princeton University</p>
+        <p>A 3D-printed surgical robot console simulator.</p>
+        <a class="btn solid start" href="https://asclepius.nyc">Visit asclepius.nyc</a>
+      </article>
+      <article class="build">
+        <span class="badge">Organizer's Choice Award</span>
+        <span class="mono">Mission:Brain Global Neurosurgery Hackathon · Jun 2026</span>
+        <h3>MindPiece Initiative</h3>
+        <p>A global health initiative addressing traumatic brain injury in low-income countries, chosen from 99 teams.</p>
+        <p class="who">With M. Li and E. Zheng</p>
+      </article>
+      <article class="build">
+        <span class="mono">Healthcare Innovation Challenge · Apr 2026</span>
+        <h3>Wolfie Run</h3>
+        <p>Rehabilitation for occipital infarction patients.</p>
+        <p class="who">With M. Li, C. Gao, J. Leung, and E. Zheng</p>
+      </article>
+    </div>
+    <ul class="awards" aria-label="Awards">
+      <li><time>Jun 2026</time><p><b>Organizer's Choice Award</b><span>Mission:Brain Global Neurosurgery Hackathon, among 99 teams</span></p></li>
+      <li><time>May 2026</time><p><b>CSTEP Research Award</b><span>Given to the top 0.2% of CSTEP students for scientific research</span></p></li>
+      <li><time>Nov 2025</time><p><b>Internship Equity Fund, Finalist and Recipient</b><span>Stony Brook University's competitive fund for students in internships and research</span></p></li>
+      <li><time>Oct 2025</time><p><b>Upstander Award</b><span>Center for Prevention and Outreach, for Green Dot, QPR, Red Watch Band, Narcan, and CPR training</span></p></li>
+      <li><time>May 2024</time><p><b>Civically Engaged Seawolf Award</b><span>Stony Brook University</span></p></li>
+      <li><time>Apr 2024</time><p><b>Outstanding Leadership and Service Pin</b><span>National Residence Hall Honorary, the chapter's highest individual honor</span></p></li>
+      <li><time>Mar 2024</time><p><b>Silver Leaf Award</b><span>National Residence Hall Honorary, presented by the Regional Director</span></p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="healthcare" aria-labelledby="care-h">
+  <div class="rail">
+    <span class="mono">2024 – 2026</span>
+    <h2 id="care-h">Healthcare experience</h2>
+    <p>Clinical research and training at Stony Brook, Johns Hopkins, and Lenox Hill</p>
+  </div>
+  <div class="content">
+    <div>
+      <article class="entry"><time>Sep 2025 – May 2026</time><div>
+        <h3>Student Researcher, Emergency Department</h3>
+        <p class="org">Stony Brook Medicine · Academic Associates · Dr. Brian McMahon</p>
+        <p class="desc">This competitive fellowship provides undergraduates with clinical experience through patient interaction in the Emergency Department at Stony Brook Medicine. Responsibilities for this role include screening bed charts for eligible candidates, obtaining patients&#39; consent for our ongoing research projects, and assisting with manuscript writing.</p></div></article>
+      <article class="entry"><time>Jun – Aug 2025</time><div>
+        <h3>Summer Hospitalist Academic Research Program (SHARP) Intern</h3>
+        <p class="org">Johns Hopkins School of Medicine · Dr. Henry Michtalik</p>
+        <p class="desc">The Summer Hospitalist Academic Research Program (SHARP) is a 10-week clinical research program designed for undergraduate students planning a career in medicine. During this position, I conducted research on the effect of race on health outcomes in US-based adult patients hospitalized with COVID-19 with Dr. Henry Michtalik. I shadowed hospitalists during rounds, triage, and procedures (e.g., paracentesis, lumbar puncture, Dobhoff nasogastric (NG) tube placement).</p></div></article>
+      <article class="entry"><time>Sep 2024 – May 2025</time><div>
+        <h3>Fellow, Pathways to Healthcare Externship</h3>
+        <p class="org">Stony Brook Medicine Emergency Department · Dr. Robert M. Nocito</p>
+        <p class="desc">The Pathways to Healthcare program bridges undergraduate students from diverse backgrounds into the medical field. Skills that I developed during this program included learning first aid, becoming HIPAA-trained, participating in medical training in cadaver labs, developing suturing and cast treatment skills, and working with case studies, research, and preparing presentations. By offering a unique opportunity to explore various healthcare fields, gain hands-on clinical experience, and build lasting relationships with mentors, we are empowering the next generation of healthcare professionals to dream bigger, reach further, and ultimately transform the future of healthcare. Participants not only develop critical skills and insights but also gain a competitive edge when applying to medical and health-related graduate programs.</p></div></article>
+      <article class="entry"><time>Jan – Feb 2024</time><div>
+        <h3>Neurosurgery Shadowing</h3>
+        <p class="org">Lenox Hill Hospital, Neurosurgery</p>
+        <ul><li>Observed craniotomies, aneurysm clippings, and laminectomies</li></ul></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="leadership" aria-labelledby="lead-h">
+  <div class="rail">
+    <span class="mono">2023 – now</span>
+    <h2 id="lead-h">Leadership &amp; mentoring</h2>
+    <p>Building communities that get students into research</p>
+  </div>
+  <div class="content">
+    <article class="feature">
+      <span class="mono">Founder &amp; CEO · Aug 2025 – now</span>
+      <h3>Oncology Society Inc</h3>
+      <p class="org">New York City · chapters at Stony Brook and Princeton</p>
+      <p class="desc">I oversee operations, membership, and events, and grew the society by founding university chapters. It began as the Oncology Society at Stony Brook, which I founded and led as president from Sep 2024 to May 2026, connecting students with research resources and teaching lab techniques.</p>
+    </article>
+    <div>
+      <article class="entry"><time class="now">Apr 2026 – now</time><div>
+        <h3>Research Mentor, Biomedical Engineering</h3>
+        <p class="org">Stony Brook University · volunteer</p>
+        <ul><li>Teach students to design and program circuits for biomedical applications</li><li>Prepare students to present posters at the VIP research symposium</li></ul></div></article>
+      <article class="entry"><time>Mar 2024 – May 2026</time><div>
+        <h3>AP Chemistry &amp; NYS Regents Chemistry Instructor</h3>
+        <p class="org">CSTEP, Stony Brook University</p>
+        <p class="desc">The Collegiate Science and Technology Entry Program (CSTEP) is a program funded by the New York State Education Department to increase the number of economically disadvantaged students and others pursuing professional licensure and careers in mathematics, science, technology, and health-related fields. My role within CSTEP is serving as the instructor for the AP- and Regents-level chemistry preparatory courses for students in the high school sister program, STEP. During the time reserved for test preparation, I teach students key general chemistry topics and test-taking strategies.</p></div></article>
+      <article class="entry"><time>Sep 2023 – Jan 2025</time><div>
+        <h3>Senior Vice President &amp; Vice President of External Affairs</h3>
+        <p class="org">National Residence Hall Honorary, Stony Brook</p>
+        <ul><li>Represented Stony Brook nationally and regionally at NEACURH</li><li>Recruited members, organized the induction ceremony, and ran club outreach</li></ul></div></article>
+    </div>
+    <p class="note">Member of the Society for Neuroscience, the American Society for Biochemistry and Molecular Biology, and the Gerontological Society of America.</p>
+  </div>
+</section>
+
+<section class="block" id="art" aria-labelledby="art-h">
+  <div class="rail">
+    <span class="mono">Exhibited · 2026</span>
+    <h2 id="art-h">Art</h2>
+  </div>
+  <div class="content">
+    <div class="art">
+      <figure class="plate"><img src="assets/creation-of-memories.webp" alt="The Creation of Memories: a fluorescent image of the dentate gyrus, with bands of blue cell nuclei crossed by bright white branching cells on a deep red field" width="1400" height="1050"></figure>
+      <div>
+        <span class="mono">Khôra Gallery · Jul 22, 2026</span>
+        <h3 class="art-title">The Creation of Memories</h3>
+        <p>Shown in the 2026 Beauty in Life Show at Khôra Gallery, Stony Brook University.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="skills" aria-labelledby="skills-h">
+  <div class="rail">
+    <span class="mono">Methods</span>
+    <h2 id="skills-h">Skills</h2>
+  </div>
+  <div class="content">
+    <div class="skills">
+      <div><h3>Neuroscience</h3><ul class="chips">
+        <li>Craniotomy</li><li>Burr hole</li><li>Stereotaxic surgery</li><li>Cisterna magna &amp; lambda infusions</li><li>Viral injections</li><li>Electrode design &amp; implantation (mouse models)</li><li>Cryosectioning</li><li>Confocal fluorescence microscopy</li><li>Stereology</li></ul></div>
+      <div><h3>Epigenetics &amp; biochemistry</h3><ul class="chips">
+        <li>FPLC purification</li><li>Nucleosome reconstitution</li><li>Dimer &amp; tetramer reconstitution</li><li>His-tagged ubiquitin purification</li><li>Nickel column purification</li><li>PCR</li><li>RT-qPCR</li><li>Western blot</li><li>Cloning</li><li>Plasmid design</li><li>Bacmid creation</li><li>Insect cell culture</li><li>Cell transformation</li><li>Agarose, native &amp; SDS gels</li><li>Miniprep</li><li>Restriction digest</li><li>NanoDrop</li><li>AlphaFold</li></ul></div>
+      <div><h3>Public health &amp; healthcare</h3><ul class="chips">
+        <li>Literature review</li><li>Manuscript writing</li><li>Data extraction</li><li>Covidence</li><li>REDCap</li><li>Microsoft Office</li><li>Google Workspace</li></ul></div>
+      <div><h3>Programming</h3><ul class="chips"><li>Python</li><li>Java</li><li>C++</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="cv" aria-labelledby="cv-h">
+  <div class="rail">
+    <span class="mono">Updated Nov 2026</span>
+    <h2 id="cv-h">CV</h2>
+  </div>
+  <div class="content">
+    <div class="cvrow">
+      <p><b>Curriculum vitae</b>Everything on this page, plus certificates, memberships, and digital media work.</p>
+      <a class="btn solid" href="assets/Cameron_Persaud_CV.pdf" target="_blank" rel="noopener">Open CV (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<section class="finale" id="contact" aria-labelledby="contact-h">
+  <span class="mono">Let's talk · research, collaborations, opportunities</span>
+  <h2 id="contact-h">Cameron<br>Persaud</h2>
+  <div class="contact">
+    <a class="email" href="mailto:cameron.persaud@stonybrook.edu">cameron.persaud@stonybrook.edu</a>
+    <button class="btn" type="button" id="copy">Copy email</button>
+    <span id="copied" role="status" aria-live="polite"></span>
+  </div>
+  <div class="links">
+    <a class="btn" href="https://www.linkedin.com/in/cameronpersaud">LinkedIn</a>
+    <a class="btn" href="https://orcid.org/0009-0005-1488-1659">ORCID</a>
+    <a class="btn" href="https://scholar.google.com/citations?user=836-B0YAAAAJ&amp;hl=en">Google Scholar</a>
+  </div>
+</section>
+</main>
+<footer class="site-footer"><span>© 2026 Cameron Persaud · New York, NY</span><span>cameronpersaud.nyc</span></footer>
+
+<script>
+/* Header gets a solid background once the page scrolls past the top */
+(function(){
+  var h=document.querySelector('.site-header'), top=document.getElementById('top'); if(!h||!top||!('IntersectionObserver' in window)) return;
+  var s=document.createElement('div'); s.style.cssText='position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none'; s.setAttribute('aria-hidden','true'); top.appendChild(s);
+  new IntersectionObserver(function(e){ h.classList.toggle('solid', !e[0].isIntersecting); }).observe(s);
+})();
+
+/* Publication filter */
+(function(){
+  var btns=document.querySelectorAll('.filters button'), items=document.querySelectorAll('#pubs li');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.dataset.f;
+    btns.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false')});
+    items.forEach(function(li){li.hidden = !(f==='all'||li.dataset.k===f)});
+  })});
+})();
+
+/* Copy email */
+(function(){
+  var b=document.getElementById('copy'), s=document.getElementById('copied');
+  b.addEventListener('click',function(){
+    var t='cameron.persaud@stonybrook.edu';
+    try{navigator.clipboard.writeText(t).then(function(){s.textContent='Copied'},function(){s.textContent='Select the address to copy it'})}
+    catch(e){s.textContent='Select the address to copy it'}
+  });
+})();
+
+/* Hero: a rotating ASCII human brain.
+   A surface model (two cerebral hemispheres with gyri and sulci, the longitudinal and
+   lateral fissures, cerebellum and brainstem) is sampled as points with normals once,
+   then rotated each frame, depth-sorted into a character grid, and shaded with the ramp
+   " .:-=+*#%@" so brighter surfaces use denser characters. */
+(function(){
+  var cv=document.getElementById('neurons'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), hero=cv.parentElement, beam=hero.querySelector('.beam');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RAMP=' .:-=+*#%@';
+  var W=0,H=0,dpr=1,narrow=false, box={x:0,y:0,w:0,h:0}, cw=7, chh=12, fs=11, cols=0, rows=0;
+  var zbuf=null, lbuf=null, angle=-2.1, last=0, spot={x:.66}, target=.66;
+  var pts=null, nrm=null, N=0;
+
+  /* ---------- build the brain surface once ---------- */
+  function ss(e0,e1,x){ var t=Math.max(0,Math.min(1,(x-e0)/(e1-e0))); return t*t*(3-2*t); }
+  function cerebrumR(ux,uy,uz){
+    /* ellipsoid: x = left-right, y = up, z = front(+)/back(-) */
+    var a=1.06, b=.68, c=.7;
+    var r=1/Math.sqrt((ux/c)*(ux/c)+(uy/b)*(uy/b)+(uz/a)*(uz/a));
+    if(uy<-.25) r*=1-.32*ss(-.25,-.9,uy);                                 /* flatter base */
+    r*=1+.06*Math.exp(-Math.pow((uy+.38)/.22,2))*ss(.25,.6,Math.abs(ux))*ss(-.6,.1,uz); /* temporal lobes */
+    r*=1-.07*ss(-.4,-1,uz)*ss(0,-.6,uy);                                   /* tuck above cerebellum */
+    /* gyri and sulci */
+    var n=Math.sin(8*ux+3*Math.sin(7*uy))+Math.sin(9*uy+3*Math.sin(6*uz))+Math.sin(8*uz+3*Math.sin(8*ux));
+    r+=.05*Math.abs(Math.sin(n*1.5))-.04;
+    /* longitudinal fissure between the hemispheres */
+    r-=.16*Math.exp(-Math.pow(ux/.045,2))*ss(-.1,.4,uy);
+    /* lateral (Sylvian) fissure */
+    r-=.05*Math.exp(-Math.pow((uy-(-.12+.3*uz))/.04,2))*ss(.45,.7,Math.abs(ux))*ss(-.5,.3,uz)*ss(.7,.2,uz);
+    return r;
+  }
+  function cerebellumR(ux,uy,uz){
+    var r=1/Math.sqrt((ux/.52)*(ux/.52)+(uy/.26)*(uy/.26)+(uz/.34)*(uz/.34));
+    var py=uy*r; r+=.012*Math.sin(py*120)-.01;                               /* folia */
+    r-=.05*Math.exp(-Math.pow(ux/.05,2));
+    return r;
+  }
+  function sampleShape(radius,center,nTh,nPh,outP,outN){
+    var e=.004;
+    function pos(th,ph){ var ux=Math.sin(th)*Math.cos(ph), uy=Math.cos(th), uz=Math.sin(th)*Math.sin(ph), r=radius(ux,uy,uz);
+      return [center[0]+ux*r, center[1]+uy*r, center[2]+uz*r]; }
+    for(var i=1;i<nTh;i++){ var th=Math.PI*i/nTh;
+      for(var j=0;j<nPh;j++){ var ph=2*Math.PI*j/nPh;
+        var p=pos(th,ph), a=pos(th+e,ph), b=pos(th,ph+e);
+        var ax=a[0]-p[0], ay=a[1]-p[1], az=a[2]-p[2], bx=b[0]-p[0], by=b[1]-p[1], bz=b[2]-p[2];
+        var nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx, L=Math.hypot(nx,ny,nz)||1; nx/=L; ny/=L; nz/=L;
+        if(nx*(p[0]-center[0])+ny*(p[1]-center[1])+nz*(p[2]-center[2])<0){nx=-nx;ny=-ny;nz=-nz;}
+        outP.push(p[0],p[1],p[2]); outN.push(nx,ny,nz);
+      }
+    }
+  }
+  function buildBrain(){
+    var P=[], Nn=[];
+    sampleShape(cerebrumR,[0,.05,0],220,440,P,Nn);
+    sampleShape(cerebellumR,[0,-.42,-.58],80,160,P,Nn);
+    /* brainstem: a tapered column under the middle */
+    for(var i=0;i<50;i++){ var y=-.3-.5*i/50, rad=.13-.03*i/50;
+      for(var j=0;j<70;j++){ var a=2*Math.PI*j/70, x=Math.cos(a)*rad, z=-.2-.12*i/50+Math.sin(a)*rad;
+        P.push(x,y,z); Nn.push(Math.cos(a),0,Math.sin(a)); } }
+    pts=new Float32Array(P); nrm=new Float32Array(Nn); N=P.length/3;
+  }
+
+  /* ---------- layout and rendering ---------- */
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2); W=hero.clientWidth; H=hero.clientHeight;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    narrow=W<760;
+    if(narrow){ var s=Math.min(W*.92,H*.5); box={x:(W-s)/2,y:H*.08,w:s,h:s*.82}; fs=6; }
+    else{ var s2=Math.min(W*.56,H*.8); box={x:W*.97-s2,y:H*.04,w:s2,h:s2*.82}; fs=s2>560?8.5:8; }
+    ctx.font='500 '+fs+'px "IBM Plex Mono", ui-monospace, Menlo, monospace';
+    cw=ctx.measureText('M').width||fs*.6; chh=fs*1.18;
+    cols=Math.floor(box.w/cw); rows=Math.floor(box.h/chh);
+    zbuf=new Float32Array(cols*rows); lbuf=new Float32Array(cols*rows);
+  }
+  var LX=-.45, LY=.62, LZ=.64; (function(){var l=Math.hypot(LX,LY,LZ); LX/=l; LY/=l; LZ/=l;})();
+  var COLORS=['rgba(20,30,150,.75)','rgba(0,1,251,.95)','rgba(60,80,255,1)','rgba(120,135,255,1)','rgba(200,208,255,1)'];
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    zbuf.fill(-1e9); lbuf.fill(-1);
+    var ca=Math.cos(angle), sa=Math.sin(angle), tilt=-.22, ct=Math.cos(tilt), st=Math.sin(tilt);
+    var scale=Math.min(box.w/2.3, box.h/2.15), cx=box.w/2, cy=box.h*.47;
+    for(var i=0;i<N;i++){
+      var k=i*3, x=pts[k], y=pts[k+1], z=pts[k+2];
+      /* rotate around the vertical axis, then tilt slightly toward the viewer */
+      var x1=x*ca+z*sa, z1=-x*sa+z*ca;
+      var y2=y*ct-z1*st, z2=y*st+z1*ct;
+      var nx=nrm[k], ny=nrm[k+1], nz=nrm[k+2];
+      var nx1=nx*ca+nz*sa, nz1=-nx*sa+nz*ca, ny2=ny*ct-nz1*st, nz2=ny*st+nz1*ct;
+      if(nz2<-.15) continue; /* back-facing */
+      var persp=1/(1-z2*.12);
+      var col=Math.floor((cx+x1*scale*persp)/cw), row=Math.floor((cy-y2*scale*persp)/chh);
+      if(col<0||row<0||col>=cols||row>=rows) continue;
+      var idx=row*cols+col;
+      if(z2>zbuf[idx]){ zbuf[idx]=z2;
+        var d=nx1*LX+ny2*LY+nz2*LZ;
+        lbuf[idx]=Math.max(0,d)*.74+.2+.08*Math.max(0,nz2); }
+    }
+    /* draw characters grouped by color to keep it fast */
+    var buckets=[[],[],[],[],[]];
+    for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+      var L=lbuf[r*cols+c]; if(L<0) continue;
+      var ci=Math.max(1,Math.min(RAMP.length-1,Math.round(L*(RAMP.length-1))));
+      var b=L<.25?0:L<.45?1:L<.65?2:L<.85?3:4;
+      buckets[b].push(RAMP[ci],box.x+c*cw,box.y+r*chh+fs);
+    }
+    ctx.textBaseline='alphabetic';
+    for(var bi=0;bi<5;bi++){ var arr=buckets[bi]; if(!arr.length) continue; ctx.fillStyle=COLORS[bi];
+      for(var q=0;q<arr.length;q+=3) ctx.fillText(arr[q],arr[q+1],arr[q+2]); }
+  }
+  function frame(now){
+    var dt=Math.min(.05,(now-(last||now))/1000); last=now;
+    angle+=dt*(2*Math.PI/26); /* one turn every 26 seconds */
+    spot.x+=(target-spot.x)*.03; if(beam) beam.style.setProperty('--sx',(spot.x*100).toFixed(1)+'%');
+    render(); raf=requestAnimationFrame(frame);
+  }
+  var raf=null;
+  buildBrain(); resize();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ resize(); if(reduce) render(); });
+  if(reduce){ render(); }
+  else{
+    raf=requestAnimationFrame(frame);
+    hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect(); target=.35+.5*((e.clientX-r.left)/r.width);});
+    document.addEventListener('visibilitychange',function(){ if(document.hidden){cancelAnimationFrame(raf);raf=null;} else if(!raf){last=0;raf=requestAnimationFrame(frame);} });
+  }
+  var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){resize(); if(reduce) render();},120)});
+})();
+</script>
+</body>
+</html>
